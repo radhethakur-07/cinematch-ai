@@ -1,0 +1,89 @@
+import time
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+
+from backend.app.core.config import settings
+from backend.app.core.database import engine, Base, SessionLocal
+from backend.app.core.errors import AppException, app_exception_handler, validation_exception_handler, general_exception_handler
+from backend.app.core.logging import logger, RequestLoggingMiddleware
+from backend.app.api.v1.api import api_router
+from backend.app.services.recommendation_service import recommendation_service
+from backend.app.services.movie_service import movie_service
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("[CineMatch AI] Starting up API server...")
+    try:
+        # Create tables if not exist (e.g. SQLite local dev or test)
+        Base.metadata.create_all(bind=engine)
+        logger.info("[CineMatch AI] Database schema initialized.")
+        
+        # Warm up recommendation engine
+        db = SessionLocal()
+        try:
+            movies = movie_service.get_all_movies(db)
+            recommendation_service.initialize(movies)
+            logger.info(f"[CineMatch AI] Preloaded {len(movies)} movies into recommendation engine.")
+        finally:
+            db.close()
+    except Exception as e:
+        logger.warning(f"[CineMatch AI] Startup initialization notice: {e}")
+    yield
+    logger.info("[CineMatch AI] Shutting down API server...")
+
+app = FastAPI(
+    title="CineMatch AI API",
+    description="Production-grade AI Movie Recommendation & Discovery Engine API",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    lifespan=lifespan
+)
+
+# CORS Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.CORS_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Request ID & Logging Middleware
+app.add_middleware(RequestLoggingMiddleware)
+
+# Centralized Exception Handlers
+app.add_exception_handler(AppException, app_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(Exception, general_exception_handler)
+
+# Include API v1 Router
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
+@app.get("/health", tags=["System Health"])
+def health_check():
+    """Liveness and readiness health probe for Render / orchestration."""
+    return {
+        "status": "healthy",
+        "service": "CineMatch AI API",
+        "environment": settings.ENVIRONMENT,
+        "recommendation_engine_ready": recommendation_service.is_initialized,
+        "timestamp": time.time()
+    }
+
+@app.get("/", tags=["System"])
+def root():
+    return {
+        "name": "CineMatch AI API",
+        "tagline": "Find your next obsession.",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("backend.app.main:app", host=settings.HOST, port=settings.PORT, reload=settings.DEBUG)
