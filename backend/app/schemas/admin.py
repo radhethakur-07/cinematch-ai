@@ -1,8 +1,8 @@
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from pydantic import BaseModel
-from backend.app.schemas.user import ProfileResponse
-from backend.app.schemas.movie import MovieSummarySchema
+from app.schemas.user import ProfileResponse
+from app.schemas.movie import MovieSummarySchema
 
 class AdminDashboardMetrics(BaseModel):
     total_users: int

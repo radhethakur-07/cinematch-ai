@@ -3,9 +3,9 @@ import json
 import re
 from typing import Dict, Any, Optional
 import google.generativeai as genai
-from backend.app.core.config import settings
-from backend.app.core.logging import logger
-from backend.app.schemas.ai import StructuredMovieIntent
+from app.core.config import settings
+from app.core.logging import logger
+from app.schemas.ai import StructuredMovieIntent
 
 GENRE_KEYWORDS = {
     "action": "Action",

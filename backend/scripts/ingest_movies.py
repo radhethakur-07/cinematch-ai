@@ -16,9 +16,9 @@ if backend_dir not in sys.path:
 
 import httpx
 from sqlalchemy.orm import Session
-from backend.app.core.config import settings
-from backend.app.core.database import SessionLocal, engine, Base
-from backend.app.models.db_models import Movie, Genre, MovieGenre, MovieCast, MovieDirector, MovieKeyword
+from app.core.config import settings
+from app.core.database import SessionLocal, engine, Base
+from app.models.db_models import Movie, Genre, MovieGenre, MovieCast, MovieDirector, MovieKeyword
 
 TMDB_BASE = "https://api.themoviedb.org/3"
 

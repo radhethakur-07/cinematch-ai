@@ -9,11 +9,11 @@ from typing import List, Dict, Any
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent))
 
-from backend.ml.inference.content_engine import ContentEngine
-from backend.ml.inference.collaborative_engine import CollaborativeEngine
-from backend.ml.inference.hybrid_engine import HybridRecommender
-from backend.ml.training.train_content_model import SAMPLE_MOVIES
-from backend.ml.training.train_collaborative_model import SAMPLE_RATINGS
+from ml.inference.content_engine import ContentEngine
+from ml.inference.collaborative_engine import CollaborativeEngine
+from ml.inference.hybrid_engine import HybridRecommender
+from ml.training.train_content_model import SAMPLE_MOVIES
+from ml.training.train_collaborative_model import SAMPLE_RATINGS
 
 def precision_at_k(recommended_ids: List[int], relevant_ids: List[int], k: int) -> float:
     if k == 0 or not recommended_ids:

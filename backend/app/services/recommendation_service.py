@@ -1,13 +1,13 @@
 import time
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
-from backend.app.services.movie_service import movie_service
-from backend.app.services.ai_service import ai_service
-from backend.ml.inference.content_engine import ContentEngine
-from backend.ml.inference.collaborative_engine import CollaborativeEngine
-from backend.ml.inference.hybrid_engine import HybridRecommender
-from backend.app.models.db_models import Rating, Like, UserPreference, RecommendationEvent, Watchlist
-from backend.app.core.logging import logger
+from app.services.movie_service import movie_service
+from app.services.ai_service import ai_service
+from ml.inference.content_engine import ContentEngine
+from ml.inference.collaborative_engine import CollaborativeEngine
+from ml.inference.hybrid_engine import HybridRecommender
+from app.models.db_models import Rating, Like, UserPreference, RecommendationEvent, Watchlist
+from app.core.logging import logger
 
 class RecommendationService:
     def __init__(self):

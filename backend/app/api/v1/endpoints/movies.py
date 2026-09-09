@@ -1,11 +1,11 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, Query, Path
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.core.security import get_optional_current_user
-from backend.app.services.movie_service import movie_service
-from backend.app.services.recommendation_service import recommendation_service
-from backend.app.schemas.movie import MovieSummarySchema, MovieDetailSchema, MovieListResponse, GenreSchema
+from app.core.database import get_db
+from app.core.security import get_optional_current_user
+from app.services.movie_service import movie_service
+from app.services.recommendation_service import recommendation_service
+from app.schemas.movie import MovieSummarySchema, MovieDetailSchema, MovieListResponse, GenreSchema
 
 router = APIRouter()
 

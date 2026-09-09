@@ -1,9 +1,9 @@
 from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.services.movie_service import movie_service
-from backend.app.schemas.movie import MovieListResponse
+from app.core.database import get_db
+from app.services.movie_service import movie_service
+from app.schemas.movie import MovieListResponse
 
 router = APIRouter()
 

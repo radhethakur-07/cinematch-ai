@@ -1,11 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.core.security import get_current_user
-from backend.app.models.db_models import Rating, WatchHistory
-from backend.app.schemas.user import RatingCreate, RatingResponse
-from backend.app.core.errors import AppException
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.db_models import Rating, WatchHistory
+from app.schemas.user import RatingCreate, RatingResponse
+from app.core.errors import AppException
 
 router = APIRouter()
 

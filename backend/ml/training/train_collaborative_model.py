@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent))
 
-from backend.ml.inference.collaborative_engine import CollaborativeEngine
+from ml.inference.collaborative_engine import CollaborativeEngine
 
 SAMPLE_RATINGS = [
     {"user_id": "user-scifi-1", "movie_id": 157336, "rating": 5.0},

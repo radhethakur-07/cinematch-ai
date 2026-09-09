@@ -5,13 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from backend.app.core.config import settings
-from backend.app.core.database import engine, Base, SessionLocal
-from backend.app.core.errors import AppException, app_exception_handler, validation_exception_handler, general_exception_handler
-from backend.app.core.logging import logger, RequestLoggingMiddleware
-from backend.app.api.v1.api import api_router
-from backend.app.services.recommendation_service import recommendation_service
-from backend.app.services.movie_service import movie_service
+from app.core.config import settings
+from app.core.database import engine, Base, SessionLocal
+from app.core.errors import AppException, app_exception_handler, validation_exception_handler, general_exception_handler
+from app.core.logging import logger, RequestLoggingMiddleware
+from app.api.v1.api import api_router
+from app.services.recommendation_service import recommendation_service
+from app.services.movie_service import movie_service
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -86,4 +86,4 @@ def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend.app.main:app", host=settings.HOST, port=settings.PORT, reload=settings.DEBUG)
+    uvicorn.run("app.main:app", host=settings.HOST, port=settings.PORT, reload=settings.DEBUG)

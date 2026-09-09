@@ -6,7 +6,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.orm import relationship
-from backend.app.core.database import Base
+from app.core.database import Base
 
 class Profile(Base):
     __tablename__ = "profiles"

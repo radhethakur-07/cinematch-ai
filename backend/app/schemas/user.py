@@ -1,7 +1,7 @@
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
-from backend.app.schemas.movie import MovieSummarySchema
+from app.schemas.movie import MovieSummarySchema
 
 class ProfileResponse(BaseModel):
     id: str

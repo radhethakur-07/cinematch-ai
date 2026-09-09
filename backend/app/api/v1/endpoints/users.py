@@ -2,11 +2,11 @@ from typing import Optional
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from backend.app.core.database import get_db
-from backend.app.core.security import get_current_user
-from backend.app.models.db_models import Profile, Rating, Watchlist, WatchHistory, UserPreference
-from backend.app.services.movie_service import movie_service
-from backend.app.schemas.user import ProfileResponse, UserTasteProfile, GenreAffinity
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.db_models import Profile, Rating, Watchlist, WatchHistory, UserPreference
+from app.services.movie_service import movie_service
+from app.schemas.user import ProfileResponse, UserTasteProfile, GenreAffinity
 from pydantic import BaseModel
 
 router = APIRouter()

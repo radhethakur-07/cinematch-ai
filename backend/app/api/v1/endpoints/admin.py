@@ -1,13 +1,13 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.core.security import get_current_admin, get_optional_current_user
-from backend.app.services.admin_service import admin_service
-from backend.app.services.movie_service import movie_service
-from backend.app.models.db_models import Profile, Rating, Watchlist
-from backend.app.schemas.admin import AdminDashboardMetrics, AdminAnalyticsChart, AdminUserItem
-from backend.app.schemas.movie import MovieSummarySchema
+from app.core.database import get_db
+from app.core.security import get_current_admin, get_optional_current_user
+from app.services.admin_service import admin_service
+from app.services.movie_service import movie_service
+from app.models.db_models import Profile, Rating, Watchlist
+from app.schemas.admin import AdminDashboardMetrics, AdminAnalyticsChart, AdminUserItem
+from app.schemas.movie import MovieSummarySchema
 
 router = APIRouter()
 

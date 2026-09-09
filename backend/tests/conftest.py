@@ -10,8 +10,8 @@ project_root = str(Path(__file__).resolve().parent.parent.parent)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from backend.app.main import app
-from backend.app.core.database import Base, get_db
+from app.main import app
+from app.core.database import Base, get_db
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test_cinematch.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})

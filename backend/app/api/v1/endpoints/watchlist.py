@@ -1,11 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.core.security import get_current_user
-from backend.app.models.db_models import Watchlist, WatchHistory
-from backend.app.services.movie_service import movie_service
-from backend.app.schemas.user import WatchlistItem
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.db_models import Watchlist, WatchHistory
+from app.services.movie_service import movie_service
+from app.schemas.user import WatchlistItem
 from pydantic import BaseModel
 
 router = APIRouter()

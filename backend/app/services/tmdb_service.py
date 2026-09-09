@@ -2,8 +2,8 @@ import os
 import time
 import httpx
 from typing import List, Dict, Any, Optional, Tuple
-from backend.app.core.config import settings
-from backend.app.core.logging import logger
+from app.core.config import settings
+from app.core.logging import logger
 
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p"

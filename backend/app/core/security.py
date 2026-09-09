@@ -1,8 +1,8 @@
 import jwt
 from typing import Optional, Dict, Any
 from fastapi import Header, HTTPException, status, Depends
-from backend.app.core.config import settings
-from backend.app.core.errors import AppException
+from app.core.config import settings
+from app.core.errors import AppException
 
 def decode_token(token: str) -> Dict[str, Any]:
     """Decode JWT token (Supabase auth token or internal token)."""

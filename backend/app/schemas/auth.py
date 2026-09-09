@@ -1,6 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
-from backend.app.schemas.user import ProfileResponse
+from app.schemas.user import ProfileResponse
 
 class UserLogin(BaseModel):
     email: EmailStr

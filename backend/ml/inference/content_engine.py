@@ -8,7 +8,7 @@ import pandas as pd
 from typing import List, Dict, Any, Tuple, Optional
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from backend.ml.preprocessing.text_normalizer import build_soup, clean_text
+from ml.preprocessing.text_normalizer import build_soup, clean_text
 
 class ContentEngine:
     def __init__(self, max_features: int = 10000, ngram_range: Tuple[int, int] = (1, 2)):

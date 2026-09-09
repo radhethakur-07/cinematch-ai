@@ -1,6 +1,6 @@
 from typing import List, Optional, Dict
 from pydantic import BaseModel
-from backend.app.schemas.movie import MovieSummarySchema
+from app.schemas.movie import MovieSummarySchema
 
 class ScoreBreakdown(BaseModel):
     content: float = 0.0

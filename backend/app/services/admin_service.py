@@ -1,9 +1,9 @@
 from typing import Dict, Any, List
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from backend.app.models.db_models import Profile, Movie, Rating, Watchlist, RecommendationEvent, Genre, MovieGenre
-from backend.app.schemas.admin import AdminDashboardMetrics, AdminAnalyticsChart, RatingsDistribution, GenreDistribution, DailyActivity
-from backend.app.services.movie_service import movie_service
+from app.models.db_models import Profile, Movie, Rating, Watchlist, RecommendationEvent, Genre, MovieGenre
+from app.schemas.admin import AdminDashboardMetrics, AdminAnalyticsChart, RatingsDistribution, GenreDistribution, DailyActivity
+from app.services.movie_service import movie_service
 
 class AdminService:
     def get_dashboard_metrics(self, db: Session) -> AdminDashboardMetrics:

@@ -3,11 +3,11 @@ from typing import Optional, Dict, Any
 from datetime import datetime, timedelta
 import jwt
 from sqlalchemy.orm import Session
-from backend.app.models.db_models import Profile, UserPreference
-from backend.app.schemas.auth import UserLogin, UserRegister, AuthResponse
-from backend.app.schemas.user import ProfileResponse
-from backend.app.core.config import settings
-from backend.app.core.errors import AppException
+from app.models.db_models import Profile, UserPreference
+from app.schemas.auth import UserLogin, UserRegister, AuthResponse
+from app.schemas.user import ProfileResponse
+from app.core.config import settings
+from app.core.errors import AppException
 from fastapi import status
 
 SECRET_KEY = settings.SUPABASE_JWT_SECRET or "cinematch-secret-development-jwt-key-32-chars"

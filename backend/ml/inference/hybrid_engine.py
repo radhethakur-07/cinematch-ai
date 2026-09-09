@@ -3,8 +3,8 @@ Hybrid Recommendation Engine with Dynamic Cold-Start Adaptation and Grounded Exp
 """
 from typing import List, Dict, Any, Optional
 import numpy as np
-from backend.ml.inference.content_engine import ContentEngine
-from backend.ml.inference.collaborative_engine import CollaborativeEngine
+from ml.inference.content_engine import ContentEngine
+from ml.inference.collaborative_engine import CollaborativeEngine
 
 class HybridRecommender:
     def __init__(

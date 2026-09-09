@@ -1,10 +1,10 @@
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import desc, or_, func
-from backend.app.models.db_models import Movie, Genre, MovieGenre, MovieCast, MovieDirector, MovieKeyword, Rating, Like, Watchlist
-from backend.app.schemas.movie import MovieSummarySchema, MovieDetailSchema, MovieListResponse, MovieFilterParams
-from backend.app.services.tmdb_service import tmdb_service
-from backend.app.core.errors import AppException
+from app.models.db_models import Movie, Genre, MovieGenre, MovieCast, MovieDirector, MovieKeyword, Rating, Like, Watchlist
+from app.schemas.movie import MovieSummarySchema, MovieDetailSchema, MovieListResponse, MovieFilterParams
+from app.services.tmdb_service import tmdb_service
+from app.core.errors import AppException
 from fastapi import status
 
 # Fallback in-memory catalog in case DB is being initialized

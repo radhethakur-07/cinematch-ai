@@ -1,10 +1,10 @@
 from typing import Optional
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.core.security import get_optional_current_user
-from backend.app.services.recommendation_service import recommendation_service
-from backend.app.schemas.ai import AIMoodSearchRequest, AIMoodSearchResponse
+from app.core.database import get_db
+from app.core.security import get_optional_current_user
+from app.services.recommendation_service import recommendation_service
+from app.schemas.ai import AIMoodSearchRequest, AIMoodSearchResponse
 
 router = APIRouter()
 

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.app.core.database import get_db
-from backend.app.core.security import get_current_user
-from backend.app.services.auth_service import auth_service
-from backend.app.schemas.auth import UserLogin, UserRegister, AuthResponse
-from backend.app.schemas.user import ProfileResponse
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.services.auth_service import auth_service
+from app.schemas.auth import UserLogin, UserRegister, AuthResponse
+from app.schemas.user import ProfileResponse
 
 router = APIRouter()
 
@@ -21,6 +21,6 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
 @router.get("/me", response_model=ProfileResponse)
 def get_me(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
     """Get currently logged-in user profile."""
-    from backend.app.models.db_models import Profile
+    from app.models.db_models import Profile
     profile = db.query(Profile).filter(Profile.id == user["id"]).first()
     return profile

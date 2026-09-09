@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple
 from pydantic import BaseModel, Field
-from backend.app.schemas.recommendation import MovieRecommendationItem
+from app.schemas.recommendation import MovieRecommendationItem
 
 class StructuredMovieIntent(BaseModel):
     """Schema validated structured intent extracted by Google Gemini from natural language prompt."""

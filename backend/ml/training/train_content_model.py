@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent))
 
-from backend.ml.inference.content_engine import ContentEngine
+from ml.inference.content_engine import ContentEngine
 
 SAMPLE_MOVIES = [
     {
