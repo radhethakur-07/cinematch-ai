@@ -28,5 +28,24 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             return response
         except Exception as ex:
             duration_ms = int((time.time() - start_time) * 1000)
-            logger.error(f"[{request_id}] FAILED {request.method} {request.url.path} - {ex} ({duration_ms}ms)")
-            raise ex
+            logger.error(f"[{request_id}] FAILED {request.method} {request.url.path} - {ex} ({duration_ms}ms)", exc_info=True)
+            from fastapi.responses import JSONResponse
+            origin = request.headers.get("origin", "*")
+            return JSONResponse(
+                status_code=500,
+                headers={
+                    "Access-Control-Allow-Origin": origin if origin else "*",
+                    "Access-Control-Allow-Credentials": "true",
+                    "Access-Control-Allow-Methods": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "X-Request-ID": request_id,
+                },
+                content={
+                    "success": False,
+                    "error": {
+                        "code": "INTERNAL_SERVER_ERROR",
+                        "message": str(ex),
+                        "details": {}
+                    }
+                }
+            )

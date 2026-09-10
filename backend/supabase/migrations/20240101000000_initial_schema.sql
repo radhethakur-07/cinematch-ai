@@ -120,10 +120,10 @@ CREATE TABLE IF NOT EXISTS public.watch_history (
 CREATE TABLE IF NOT EXISTS public.user_preferences (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL UNIQUE,
-    favorite_genres INT[] DEFAULT '{}',
-    preferred_languages VARCHAR(10)[] DEFAULT ARRAY['en'],
-    preferred_decades VARCHAR(20)[] DEFAULT '{}',
-    mood_preferences VARCHAR(50)[] DEFAULT '{}',
+    favorite_genres JSONB DEFAULT '[]'::jsonb,
+    preferred_languages JSONB DEFAULT '["en"]'::jsonb,
+    preferred_decades JSONB DEFAULT '[]'::jsonb,
+    mood_preferences JSONB DEFAULT '[]'::jsonb,
     onboarding_done BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS public.recommendation_events (
     user_id UUID,
     recommendation_type VARCHAR(50) NOT NULL,
     query_prompt TEXT,
-    recommended_movie_ids INT[] DEFAULT '{}',
+    recommended_movie_ids JSONB DEFAULT '[]'::jsonb,
     clicked_movie_id INT,
     latency_ms INT DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
