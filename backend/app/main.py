@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 
 from app.core.config import settings
 from app.core.database import engine, Base, SessionLocal
+import app.models.db_models  # Ensure models are registered on Base.metadata
 from app.core.errors import AppException, app_exception_handler, validation_exception_handler, general_exception_handler
 from app.core.logging import logger, RequestLoggingMiddleware
 from app.api.v1.api import api_router
