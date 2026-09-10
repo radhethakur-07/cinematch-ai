@@ -14,7 +14,7 @@ SECRET_KEY = settings.SUPABASE_JWT_SECRET or "cinematch-secret-development-jwt-k
 ALGORITHM = "HS256"
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    to_encode = data.copy()
+    to_encode = {k: (str(v) if isinstance(v, uuid.UUID) else v) for k, v in data.items()}
     expire = datetime.utcnow() + (expires_delta or timedelta(days=7))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
@@ -40,19 +40,30 @@ class AuthService:
 
         # Create empty user preferences
         pref = UserPreference(
-            user_id=new_profile.id,
+            user_id=str(new_profile.id),
             favorite_genres=[],
+            preferred_languages=["en"],
+            preferred_decades=[],
+            mood_preferences=[],
             onboarding_done=False
         )
         db.add(pref)
         db.commit()
         db.refresh(new_profile)
 
-        token = create_access_token({"sub": new_profile.id, "email": new_profile.email, "is_admin": False})
+        token = create_access_token({"sub": str(new_profile.id), "email": str(new_profile.email), "is_admin": bool(new_profile.is_admin)})
         return AuthResponse(
             access_token=token,
             token_type="bearer",
-            user=ProfileResponse.model_validate(new_profile)
+            user=ProfileResponse(
+                id=str(new_profile.id),
+                email=str(new_profile.email),
+                full_name=new_profile.full_name,
+                avatar_url=new_profile.avatar_url,
+                is_admin=bool(new_profile.is_admin),
+                onboarding_completed=bool(new_profile.onboarding_completed),
+                created_at=new_profile.created_at
+            )
         )
 
     def login(self, db: Session, credentials: UserLogin) -> AuthResponse:
@@ -61,11 +72,19 @@ class AuthService:
             # For development demo convenience, if user doesn't exist, auto-create profile
             return self.register(db, UserRegister(email=credentials.email, password=credentials.password))
 
-        token = create_access_token({"sub": user.id, "email": user.email, "is_admin": user.is_admin})
+        token = create_access_token({"sub": str(user.id), "email": str(user.email), "is_admin": bool(user.is_admin)})
         return AuthResponse(
             access_token=token,
             token_type="bearer",
-            user=ProfileResponse.model_validate(user)
+            user=ProfileResponse(
+                id=str(user.id),
+                email=str(user.email),
+                full_name=user.full_name,
+                avatar_url=user.avatar_url,
+                is_admin=bool(user.is_admin),
+                onboarding_completed=bool(user.onboarding_completed),
+                created_at=user.created_at
+            )
         )
 
 auth_service = AuthService()
