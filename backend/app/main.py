@@ -45,9 +45,14 @@ app = FastAPI(
 )
 
 # CORS Configuration
+origins = list(settings.CORS_ORIGINS) if isinstance(settings.CORS_ORIGINS, list) else [str(settings.CORS_ORIGINS)]
+if "https://cinematch-ai-sigma.vercel.app" not in origins:
+    origins.append("https://cinematch-ai-sigma.vercel.app")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=origins,
+    allow_origin_regex=r"^https:\/\/.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
