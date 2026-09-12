@@ -390,6 +390,71 @@ DEFAULT_CATALOG = [
 ]
 
 class MovieService:
+    def seed_or_sync_catalog(self, db: Session):
+        """Automatically sync DEFAULT_CATALOG movies, posters, and genres into database on server startup."""
+        try:
+            # 1. Clean up old/deprecated webseries id 80468
+            old_webseries = db.query(Movie).filter(Movie.id == 80468).first()
+            if old_webseries:
+                db.delete(old_webseries)
+                db.commit()
+
+            # 2. Upsert each movie from DEFAULT_CATALOG
+            for item in DEFAULT_CATALOG:
+                movie = db.query(Movie).filter(Movie.id == item["id"]).first()
+                if not movie:
+                    movie = Movie(
+                        id=item["id"],
+                        title=item["title"],
+                        original_title=item.get("original_title"),
+                        overview=item.get("overview"),
+                        release_date=item.get("release_date"),
+                        poster_path=item.get("poster_path"),
+                        backdrop_path=item.get("backdrop_path"),
+                        vote_average=item.get("vote_average", 0.0),
+                        vote_count=item.get("vote_count", 0),
+                        popularity=item.get("popularity", 0.0),
+                        runtime=item.get("runtime"),
+                        tagline=item.get("tagline"),
+                        trailer_url=item.get("trailer_url"),
+                    )
+                    db.add(movie)
+                    db.flush()
+                else:
+                    # Update fields to ensure fresh posters, backdrops, and titles
+                    movie.title = item["title"]
+                    movie.original_title = item.get("original_title")
+                    movie.overview = item.get("overview")
+                    movie.release_date = item.get("release_date")
+                    movie.poster_path = item.get("poster_path")
+                    movie.backdrop_path = item.get("backdrop_path")
+                    movie.vote_average = item.get("vote_average", movie.vote_average)
+                    movie.vote_count = item.get("vote_count", movie.vote_count)
+                    movie.popularity = item.get("popularity", movie.popularity)
+                    movie.runtime = item.get("runtime", movie.runtime)
+                    movie.tagline = item.get("tagline", movie.tagline)
+                    movie.trailer_url = item.get("trailer_url", movie.trailer_url)
+
+                # Ensure genres are linked
+                if "genres" in item:
+                    for g_data in item["genres"]:
+                        gid = g_data["id"]
+                        gname = g_data["name"]
+                        genre = db.query(Genre).filter(Genre.id == gid).first()
+                        if not genre:
+                            genre = Genre(id=gid, name=gname)
+                            db.add(genre)
+                            db.flush()
+                        
+                        mg = db.query(MovieGenre).filter(MovieGenre.movie_id == movie.id, MovieGenre.genre_id == gid).first()
+                        if not mg:
+                            mg = MovieGenre(movie_id=movie.id, genre_id=gid)
+                            db.add(mg)
+
+            db.commit()
+        except Exception:
+            db.rollback()
+
     def get_all_movies(self, db: Session) -> List[Dict[str, Any]]:
         """Retrieve all movies from DB or fallback dataset."""
         try:

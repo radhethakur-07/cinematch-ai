@@ -22,9 +22,10 @@ async def lifespan(app: FastAPI):
         Base.metadata.create_all(bind=engine)
         logger.info("[CineMatch AI] Database schema initialized.")
         
-        # Warm up recommendation engine
+        # Warm up recommendation engine and sync catalog
         db = SessionLocal()
         try:
+            movie_service.seed_or_sync_catalog(db)
             movies = movie_service.get_all_movies(db)
             recommendation_service.initialize(movies)
             logger.info(f"[CineMatch AI] Preloaded {len(movies)} movies into recommendation engine.")
