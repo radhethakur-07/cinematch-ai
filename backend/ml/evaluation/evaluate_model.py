@@ -7,7 +7,7 @@ import numpy as np
 from pathlib import Path
 from typing import List, Dict, Any
 
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from ml.inference.content_engine import ContentEngine
 from ml.inference.collaborative_engine import CollaborativeEngine
