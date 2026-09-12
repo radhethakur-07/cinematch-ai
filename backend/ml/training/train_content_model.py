@@ -249,6 +249,30 @@ SAMPLE_MOVIES = [
         "directors": ["Amar Kaushik"],
         "cast": ["Rajkummar Rao", "Shraddha Kapoor", "Pankaj Tripathi", "Aparshakti Khurana"],
         "keywords": ["ghost", "horror comedy", "small town", "supernatural", "folklore"]
+    },
+    {
+        "id": 101088,
+        "title": "Panchayat",
+        "overview": "Abhishek Tripathi, an engineering graduate, navigates the quirky challenges and eccentric politics of rural India as the secretary of a Gram Panchayat in the quiet village of Phulera.",
+        "tagline": "Lauki, Chai, aur Phulera ki Siyasat.",
+        "vote_average": 8.9,
+        "popularity": 198.0,
+        "genres": ["Comedy", "Drama"],
+        "directors": ["Deepak Kumar Mishra"],
+        "cast": ["Jitendra Kumar", "Neena Gupta", "Raghubir Yadav", "Chandan Roy", "Faisal Malik"],
+        "keywords": ["village life", "panchayat", "sachiv ji", "rural politics", "phulera", "wholesome comedy", "tvf"]
+    },
+    {
+        "id": 928172,
+        "title": "Pritam and Pedro",
+        "overview": "A brilliant, sharp-witted young hacker Pritam and an unorthodox, seasoned cop Pedro find themselves forced into an eccentric partnership to crack high-stakes digital heists and dismantle a massive cyber-crime network.",
+        "tagline": "Genius Hacker meets Noob Cop.",
+        "vote_average": 8.5,
+        "popularity": 196.0,
+        "genres": ["Crime", "Comedy", "Thriller", "Drama"],
+        "directors": ["Rajkumar Hirani"],
+        "cast": ["Vikrant Massey", "Arshad Warsi", "Vir Hirani"],
+        "keywords": ["cyber crime", "hacker", "cop and criminal", "buddy cop", "digital heist", "comedy thriller"]
     }
 ]
 
