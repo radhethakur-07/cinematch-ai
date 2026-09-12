@@ -34,6 +34,7 @@ dist/
 *.sqlite3
 test_*.db
 cinematch_dev.db
+*.joblib
 .pytest_cache/
 .coverage
 htmlcov/

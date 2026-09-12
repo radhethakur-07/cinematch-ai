@@ -129,6 +129,126 @@ SAMPLE_MOVIES = [
         "directors": ["Lana Wachowski", "Lilly Wachowski"],
         "cast": ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
         "keywords": ["simulated reality", "dystopia", "martial arts", "ai rebellion"]
+    },
+    {
+        "id": 80468,
+        "title": "Mirzapur",
+        "overview": "The iron-fisted Akhandanand Tripathi is a millionaire carpet exporter and the mafia don of Mirzapur. His ambitious son Munna will stop at nothing to inherit his father's legacy.",
+        "tagline": "Rule the kingdom or die trying.",
+        "vote_average": 8.6,
+        "popularity": 178.5,
+        "genres": ["Crime", "Action", "Drama", "Thriller"],
+        "directors": ["Karan Anshuman", "Gurmmeet Singh"],
+        "cast": ["Pankaj Tripathi", "Ali Fazal", "Divyenndu", "Shweta Tripathi"],
+        "keywords": ["mafia", "gangster", "power struggle", "revenge", "crime lord", "underworld"]
+    },
+    {
+        "id": 991201,
+        "title": "Dhurandhar",
+        "overview": "An elite Indian intelligence officer orchestrates a high-stakes undercover global counter-terror operation against a ruthless syndicate spanning cross-border networks.",
+        "tagline": "The ultimate covert tactical strike.",
+        "vote_average": 8.4,
+        "popularity": 195.4,
+        "genres": ["Action", "Thriller", "Crime"],
+        "directors": ["Aditya Dhar"],
+        "cast": ["Ranveer Singh", "Sanjay Dutt", "R. Madhavan", "Akshaye Khanna"],
+        "keywords": ["espionage", "intelligence agent", "counter terrorism", "covert ops", "action"]
+    },
+    {
+        "id": 15301,
+        "title": "Dhoom 2",
+        "overview": "ACP Jai Dixit and his sidekick Ali team up with a mysterious undercover cop to track down Mr. A, a master of disguise and fearless high-tech thief.",
+        "tagline": "Back in Action with Style.",
+        "vote_average": 7.6,
+        "popularity": 110.2,
+        "genres": ["Action", "Thriller", "Crime"],
+        "directors": ["Sanjay Gadhvi"],
+        "cast": ["Hrithik Roshan", "Abhishek Bachchan", "Aishwarya Rai", "Bipasha Basu"],
+        "keywords": ["heist", "high-tech thief", "chase", "undercover cop", "style"]
+    },
+    {
+        "id": 115004,
+        "title": "Gangs of Wasseypur",
+        "overview": "A multi-generational blood feud between three crime families in the coal-rich town of Wasseypur spirals into relentless violence, political corruption, and vengeance.",
+        "tagline": "Revenge is the only currency that matters.",
+        "vote_average": 8.4,
+        "popularity": 135.0,
+        "genres": ["Crime", "Drama", "Action"],
+        "directors": ["Anurag Kashyap"],
+        "cast": ["Manoj Bajpayee", "Nawazuddin Siddiqui", "Richa Chadha", "Huma Qureshi"],
+        "keywords": ["gang war", "coal mafia", "revenge", "family feud", "cult classic"]
+    },
+    {
+        "id": 536343,
+        "title": "Tumbbad",
+        "overview": "A mythological horror tale revolving around a cursed ancient family mansion and the monstrous, forbidden gold of the demon Hastar in 19th-century Maharashtra.",
+        "tagline": "Fear the endless greed of Hastar.",
+        "vote_average": 8.5,
+        "popularity": 148.0,
+        "genres": ["Horror", "Fantasy", "Mystery", "Drama"],
+        "directors": ["Rahi Anil Barve", "Anand Gandhi"],
+        "cast": ["Sohum Shah", "Jyoti Malshe", "Anita Date"],
+        "keywords": ["greed", "curse", "mythology", "demon", "treasure", "period horror"]
+    },
+    {
+        "id": 579974,
+        "title": "RRR",
+        "overview": "A fictional story about two legendary Indian revolutionaries, Alluri Sitarama Raju and Komaram Bheem, and their epic battle against the British Raj in the 1920s.",
+        "tagline": "Rise, Roar, Revolt.",
+        "vote_average": 8.3,
+        "popularity": 182.0,
+        "genres": ["Action", "Drama", "Adventure"],
+        "directors": ["S.S. Rajamouli"],
+        "cast": ["N.T. Rama Rao Jr.", "Ram Charan", "Alia Bhatt", "Ajay Devgn"],
+        "keywords": ["revolution", "brotherhood", "epic battle", "freedom fighter", "blockbuster"]
+    },
+    {
+        "id": 584440,
+        "title": "K.G.F: Chapter 2",
+        "overview": "The blood-soaked land of Kolar Gold Fields has a new overlord: Rocky. While his allies look up to him, the government sees him as a threat to law and order.",
+        "tagline": "Violence violence violence... I don't like it, I avoid. But violence likes me!",
+        "vote_average": 8.2,
+        "popularity": 168.0,
+        "genres": ["Action", "Crime", "Drama"],
+        "directors": ["Prashanth Neel"],
+        "cast": ["Yash", "Sanjay Dutt", "Raveena Tandon", "Srinidhi Shetty"],
+        "keywords": ["gold mines", "gangster", "power", "mass hero", "underworld"]
+    },
+    {
+        "id": 20453,
+        "title": "3 Idiots",
+        "overview": "Two friends embark on a quest for a lost buddy. On this journey, they reminisce about their college days and their friend who inspired them to think differently.",
+        "tagline": "Don't chase success, chase excellence and success will follow.",
+        "vote_average": 8.5,
+        "popularity": 142.0,
+        "genres": ["Comedy", "Drama"],
+        "directors": ["Rajkumar Hirani"],
+        "cast": ["Aamir Khan", "R. Madhavan", "Sharman Joshi", "Kareena Kapoor"],
+        "keywords": ["college life", "engineering", "friendship", "education system", "inspiration"]
+    },
+    {
+        "id": 781732,
+        "title": "Animal",
+        "overview": "The hardened son of a powerful industrialist returns home after years abroad and unleashes an unrelenting violent rampage against anyone threatening his father's life.",
+        "tagline": "A father-son bond that turned ferocious.",
+        "vote_average": 7.9,
+        "popularity": 188.0,
+        "genres": ["Action", "Drama", "Crime"],
+        "directors": ["Sandeep Reddy Vanga"],
+        "cast": ["Ranbir Kapoor", "Anil Kapoor", "Bobby Deol", "Rashmika Mandanna"],
+        "keywords": ["father son", "obsession", "revenge", "gang war", "violence"]
+    },
+    {
+        "id": 1111873,
+        "title": "Stree 2",
+        "overview": "The town of Chanderi is haunted once again, this time by a headless entity named Sarkata that abducts modern women. Vicky and his loyal gang must unite with Stree to save the town.",
+        "tagline": "O Stree kal aana!",
+        "vote_average": 8.0,
+        "popularity": 192.0,
+        "genres": ["Horror", "Comedy", "Fantasy"],
+        "directors": ["Amar Kaushik"],
+        "cast": ["Rajkummar Rao", "Shraddha Kapoor", "Pankaj Tripathi", "Aparshakti Khurana"],
+        "keywords": ["ghost", "horror comedy", "small town", "supernatural", "folklore"]
     }
 ]
 
