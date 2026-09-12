@@ -131,16 +131,16 @@ SAMPLE_MOVIES = [
         "keywords": ["simulated reality", "dystopia", "martial arts", "ai rebellion"]
     },
     {
-        "id": 80468,
-        "title": "Mirzapur",
-        "overview": "The iron-fisted Akhandanand Tripathi is a millionaire carpet exporter and the mafia don of Mirzapur. His ambitious son Munna will stop at nothing to inherit his father's legacy.",
-        "tagline": "Rule the kingdom or die trying.",
-        "vote_average": 8.6,
-        "popularity": 178.5,
+        "id": 804680,
+        "title": "Mirzapur: The Film",
+        "overview": "The high-octane theatrical cinematic universe debut of Mirzapur. Kaleen Bhaiya, Guddu Pandit, and Munna Bhaiya collide on the big screen in a colossal, all-out war for total supremacy over the Purvanchal throne.",
+        "tagline": "Bhowkaal will now explode on the Big Screen.",
+        "vote_average": 8.7,
+        "popularity": 198.5,
         "genres": ["Crime", "Action", "Drama", "Thriller"],
-        "directors": ["Karan Anshuman", "Gurmmeet Singh"],
-        "cast": ["Pankaj Tripathi", "Ali Fazal", "Divyenndu", "Shweta Tripathi"],
-        "keywords": ["mafia", "gangster", "power struggle", "revenge", "crime lord", "underworld"]
+        "directors": ["Gurmmeet Singh"],
+        "cast": ["Pankaj Tripathi", "Ali Fazal", "Divyenndu", "Jitendra Kumar"],
+        "keywords": ["mafia", "gangster", "power struggle", "revenge", "crime lord", "theatrical movie", "bhowkaal", "purvanchal"]
     },
     {
         "id": 991201,
