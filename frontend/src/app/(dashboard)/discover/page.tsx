@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { MovieListResponse, Genre } from "@/types";
 import { MovieCard } from "@/components/movies/movie-card";
-import { Filter, Loader2, ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 
 export default function DiscoverPage() {
   const [selectedGenre, setSelectedGenre] = useState<number | undefined>(undefined);
@@ -31,27 +31,27 @@ export default function DiscoverPage() {
   });
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Header & Filter Controls */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-cinema-border/80 pb-6">
+    <div className="min-h-screen max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-6 sm:space-y-8">
+      {/* Header & Filter Controls - Mobile Scalable */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-cinema-border/90 pb-5">
         <div>
-          <h1 className="text-3xl font-extrabold text-white">Discover Catalog</h1>
-          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-            Filter through cinematic releases by genre, ratings, and release timeline
+          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">Discover Catalog</h1>
+          <p className="text-xs sm:text-sm text-zinc-400 mt-1 font-medium">
+            Filter through cinematic releases by genre, ratings, and popularity
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2.5 flex-wrap">
           {/* Genre select */}
-          <div className="relative">
+          <div className="flex-1 sm:flex-none">
             <select
               value={selectedGenre || ""}
               onChange={(e) => {
                 setSelectedGenre(e.target.value ? Number(e.target.value) : undefined);
                 setPage(1);
               }}
-              className="rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2 text-xs font-semibold text-zinc-200 focus:border-brand-500 focus:outline-none"
+              className="w-full sm:w-auto rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2.5 text-xs font-bold text-zinc-100 focus:border-brand-500 focus:outline-none shadow-md cursor-pointer"
             >
               <option value="">All Genres</option>
               {genres?.map((g) => (
@@ -63,18 +63,18 @@ export default function DiscoverPage() {
           </div>
 
           {/* Sort select */}
-          <div className="relative">
+          <div className="flex-1 sm:flex-none">
             <select
               value={sortBy}
               onChange={(e) => {
                 setSortBy(e.target.value);
                 setPage(1);
               }}
-              className="rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2 text-xs font-semibold text-zinc-200 focus:border-brand-500 focus:outline-none"
+              className="w-full sm:w-auto rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2.5 text-xs font-bold text-zinc-100 focus:border-brand-500 focus:outline-none shadow-md cursor-pointer"
             >
               <option value="popularity.desc">Most Popular</option>
               <option value="vote_average.desc">Highest Rated</option>
-              <option value="release_date.desc">Release Date (Newest)</option>
+              <option value="release_date.desc">Newest Releases</option>
             </select>
           </div>
         </div>
@@ -82,28 +82,28 @@ export default function DiscoverPage() {
 
       {/* Movie Grid */}
       {isLoading ? (
-        <div className="py-20 flex flex-col items-center justify-center space-y-3">
-          <Loader2 className="h-8 w-8 text-brand-500 animate-spin" />
-          <p className="text-sm text-zinc-400">Loading catalog movies...</p>
+        <div className="py-24 flex flex-col items-center justify-center space-y-3">
+          <Loader2 className="h-9 w-9 text-brand-500 animate-spin" />
+          <p className="text-sm font-bold text-zinc-300">Loading catalog movies...</p>
         </div>
       ) : movieData?.items && movieData.items.length > 0 ? (
         <div className="space-y-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-5">
             {movieData.items.map((movie) => (
               <MovieCard key={movie.id} movie={movie} showMatchPercentage={false} />
             ))}
           </div>
 
-          {/* Pagination */}
+          {/* Pagination - Mobile Friendly */}
           <div className="flex items-center justify-between border-t border-cinema-border pt-6">
-            <span className="text-xs text-zinc-400">
+            <span className="text-xs text-zinc-400 font-medium">
               Page {movieData.page} of {movieData.total_pages} ({movieData.total} movies)
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="flex items-center gap-1 rounded-lg border border-cinema-border bg-cinema-card px-3 py-1.5 text-xs font-medium text-zinc-300 hover:bg-cinema-hover disabled:opacity-40 transition-colors"
+                className="flex items-center gap-1 rounded-xl border border-cinema-border bg-cinema-card px-4 py-2 text-xs font-bold text-zinc-200 hover:bg-brand-600 hover:border-brand-500 disabled:opacity-40 transition-all cursor-pointer"
               >
                 <ChevronLeft className="h-4 w-4" />
                 <span>Prev</span>
@@ -111,7 +111,7 @@ export default function DiscoverPage() {
               <button
                 onClick={() => setPage((p) => Math.min(movieData.total_pages, p + 1))}
                 disabled={page >= movieData.total_pages}
-                className="flex items-center gap-1 rounded-lg border border-cinema-border bg-cinema-card px-3 py-1.5 text-xs font-medium text-zinc-300 hover:bg-cinema-hover disabled:opacity-40 transition-colors"
+                className="flex items-center gap-1 rounded-xl border border-cinema-border bg-cinema-card px-4 py-2 text-xs font-bold text-zinc-200 hover:bg-brand-600 hover:border-brand-500 disabled:opacity-40 transition-all cursor-pointer"
               >
                 <span>Next</span>
                 <ChevronRight className="h-4 w-4" />
@@ -120,14 +120,14 @@ export default function DiscoverPage() {
           </div>
         </div>
       ) : (
-        <div className="py-20 text-center text-zinc-500">
-          <p className="text-base font-semibold">No movies found matching these filters.</p>
+        <div className="py-24 text-center text-zinc-400 space-y-3">
+          <p className="text-base font-bold text-white">No movies found matching these filters.</p>
           <button
             onClick={() => {
               setSelectedGenre(undefined);
               setSortBy("popularity.desc");
             }}
-            className="mt-3 text-xs font-semibold text-brand-400 hover:underline"
+            className="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-brand-500 transition-colors cursor-pointer"
           >
             Clear Filters
           </button>
