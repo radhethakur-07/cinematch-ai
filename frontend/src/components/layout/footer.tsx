@@ -49,7 +49,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-2">
               <a
-                href="https://github.com"
+                href="https://github.com/radhethakur-07/cinematch-ai"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1 text-xs text-zinc-300 hover:text-white border border-cinema-border px-2.5 py-1 rounded bg-cinema-card"
