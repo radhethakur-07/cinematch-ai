@@ -13,15 +13,32 @@ router = APIRouter()
 def get_movies(
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
+    media_type: Optional[str] = Query(None, description="'Movie', 'Series', or None for All"),
     genre_id: Optional[int] = None,
+    year: Optional[int] = None,
+    min_rating: Optional[float] = None,
+    language: Optional[str] = None,
     sort_by: Optional[str] = "popularity.desc",
     db: Session = Depends(get_db)
 ):
-    """List movies with optional genre filter and pagination."""
+    """List movies & series with media_type, genre, year, rating filters, and pagination."""
     all_movies = movie_service.get_all_movies(db)
     filtered = all_movies
+    
+    if media_type:
+        filtered = [m for m in filtered if m.get("media_type", "Movie").lower() == media_type.lower()]
+    
     if genre_id:
         filtered = [m for m in filtered if any(g["id"] == genre_id for g in m.get("genres", []))]
+        
+    if year:
+        filtered = [m for m in filtered if str(m.get("release_date", "")).startswith(str(year))]
+        
+    if min_rating:
+        filtered = [m for m in filtered if float(m.get("vote_average", 0)) >= min_rating]
+        
+    if language:
+        filtered = [m for m in filtered if m.get("language", "hi") == language]
     
     if sort_by == "vote_average.desc":
         filtered.sort(key=lambda x: x.get("vote_average", 0), reverse=True)

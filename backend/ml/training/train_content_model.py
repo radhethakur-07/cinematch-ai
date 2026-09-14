@@ -277,13 +277,23 @@ SAMPLE_MOVIES = [
 ]
 
 def train_content_model(movies_data=None, output_path="backend/ml/models/content_model.joblib"):
-    print("[ML Pipeline] Training Content-Based Model...")
-    movies = movies_data if movies_data is not None else SAMPLE_MOVIES
+    print("[ML Pipeline] Training Content-Based Model on full verified catalog...")
+    if movies_data is None:
+        try:
+            from app.services.movie_service import DEFAULT_CATALOG
+            movies = DEFAULT_CATALOG
+            print(f"[ML Pipeline] Loaded {len(movies)} verified movies and series from DEFAULT_CATALOG.")
+        except Exception as e:
+            print(f"[ML Pipeline] Fallback to sample movies: {e}")
+            movies = SAMPLE_MOVIES
+    else:
+        movies = movies_data
+
     engine = ContentEngine()
     engine.fit(movies)
     
     engine.save_model(output_path)
-    print(f"[ML Pipeline] Successfully saved model to {output_path}")
+    print(f"[ML Pipeline] Successfully saved model with {len(movies)} items to {output_path}")
     return engine
 
 if __name__ == "__main__":

@@ -59,12 +59,19 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
 
         {/* Top Badges */}
         <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
-          {showMatchPercentage && (
-            <span className="flex items-center gap-1 rounded-full bg-black/85 backdrop-blur-md px-2.5 py-0.5 text-[10px] sm:text-[11px] font-black text-emerald-300 border border-emerald-500/50 shadow-md">
-              <Sparkles className="h-3 w-3 text-emerald-400" />
-              {matchPct}% Match
-            </span>
-          )}
+          <div className="flex items-center gap-1.5">
+            {showMatchPercentage && (
+              <span className="flex items-center gap-1 rounded-full bg-black/85 backdrop-blur-md px-2.5 py-0.5 text-[10px] sm:text-[11px] font-black text-emerald-300 border border-emerald-500/50 shadow-md">
+                <Sparkles className="h-3 w-3 text-emerald-400" />
+                {matchPct}% Match
+              </span>
+            )}
+            {(movie.media_type === "Series" || movie.number_of_seasons) && (
+              <span className="rounded-full bg-brand-600/90 backdrop-blur-md px-2 py-0.5 text-[9px] font-black tracking-wider uppercase text-white border border-brand-400 shadow-md">
+                Series
+              </span>
+            )}
+          </div>
 
           {isAuthenticated && (
             <button
@@ -98,6 +105,12 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
               <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
               {movie.vote_average?.toFixed(1) || "7.5"}
             </span>
+            {movie.number_of_seasons && (
+              <>
+                <span>•</span>
+                <span className="text-[10px] text-zinc-400 font-semibold">{movie.number_of_seasons} {movie.number_of_seasons === 1 ? 'Season' : 'Seasons'}</span>
+              </>
+            )}
           </div>
         </div>
 

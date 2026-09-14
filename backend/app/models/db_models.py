@@ -55,6 +55,11 @@ class Movie(Base):
     trailer_url = Column(String(255), nullable=True)
     budget = Column(BigInteger, default=0)
     revenue = Column(BigInteger, default=0)
+    media_type = Column(String(20), default="Movie")
+    number_of_seasons = Column(Integer, nullable=True)
+    number_of_episodes = Column(Integer, nullable=True)
+    language = Column(String(50), default="hi")
+    creator = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

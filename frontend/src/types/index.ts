@@ -39,6 +39,11 @@ export interface Movie {
   trailer_url?: string;
   budget?: number;
   revenue?: number;
+  media_type?: "Movie" | "Series" | string;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
+  language?: string;
+  creator?: string;
   genres: Genre[];
   cast?: CastMember[];
   directors?: Director[];

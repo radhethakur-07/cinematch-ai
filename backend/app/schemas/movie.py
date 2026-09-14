@@ -31,6 +31,7 @@ class MovieSummarySchema(BaseModel):
     id: int
     title: str
     original_title: Optional[str] = None
+    media_type: Optional[str] = "Movie"
     overview: Optional[str] = None
     release_date: Optional[date] = None
     poster_path: Optional[str] = None
@@ -39,6 +40,10 @@ class MovieSummarySchema(BaseModel):
     vote_count: int = 0
     popularity: float = 0.0
     runtime: Optional[int] = None
+    number_of_seasons: Optional[int] = None
+    number_of_episodes: Optional[int] = None
+    language: Optional[str] = "hi"
+    creator: Optional[str] = None
     tagline: Optional[str] = None
     genres: List[GenreSchema] = []
     match_percentage: Optional[int] = None
@@ -70,9 +75,11 @@ class MovieListResponse(BaseModel):
     total_pages: int
 
 class MovieFilterParams(BaseModel):
+    media_type: Optional[str] = None # 'Movie', 'Series', or None
     genre_id: Optional[int] = None
     year: Optional[int] = None
     min_rating: Optional[float] = None
+    language: Optional[str] = None
     sort_by: Optional[str] = "popularity.desc" # 'popularity.desc', 'vote_average.desc', 'release_date.desc'
     page: int = 1
     page_size: int = 20

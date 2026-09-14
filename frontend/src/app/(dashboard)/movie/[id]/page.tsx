@@ -105,6 +105,11 @@ export default function MovieDetailPage() {
           {/* Details header */}
           <div className="space-y-4 flex-1">
             <div className="flex flex-wrap items-center gap-2">
+              {(movie.media_type === "Series" || movie.number_of_seasons) && (
+                <span className="rounded-full bg-brand-600 px-3 py-0.5 text-xs font-black uppercase tracking-wider text-white shadow-md">
+                  Web Series
+                </span>
+              )}
               {movie.genres?.map((g) => (
                 <span key={g.id} className="rounded-full bg-brand-600/20 border border-brand-500/30 px-3 py-0.5 text-xs font-semibold text-brand-300">
                   {g.name}
@@ -132,10 +137,21 @@ export default function MovieDetailPage() {
                 <Calendar className="h-4 w-4" />
                 {formatReleaseYear(movie.release_date)}
               </span>
-              <span className="flex items-center gap-1 text-zinc-400">
-                <Clock className="h-4 w-4" />
-                {formatRuntime(movie.runtime)}
-              </span>
+              {movie.number_of_seasons ? (
+                <span className="flex items-center gap-1 text-brand-400 font-bold bg-brand-500/10 px-2.5 py-0.5 rounded border border-brand-500/20">
+                  {movie.number_of_seasons} {movie.number_of_seasons === 1 ? 'Season' : 'Seasons'}
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 text-zinc-400">
+                  <Clock className="h-4 w-4" />
+                  {formatRuntime(movie.runtime)}
+                </span>
+              )}
+              {movie.creator && (
+                <span className="text-zinc-300">
+                  <strong className="text-zinc-500">Creator:</strong> {movie.creator}
+                </span>
+              )}
             </div>
 
             {/* Interactive Action Buttons */}

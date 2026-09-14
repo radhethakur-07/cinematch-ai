@@ -8,6 +8,7 @@ import { MovieCard } from "@/components/movies/movie-card";
 import { Loader2, ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 
 export default function DiscoverPage() {
+  const [selectedMediaType, setSelectedMediaType] = useState<string | undefined>(undefined);
   const [selectedGenre, setSelectedGenre] = useState<number | undefined>(undefined);
   const [sortBy, setSortBy] = useState<string>("popularity.desc");
   const [page, setPage] = useState<number>(1);
@@ -20,13 +21,14 @@ export default function DiscoverPage() {
 
   // Fetch Movies
   const { data: movieData, isLoading } = useQuery({
-    queryKey: ["movies", "discover", selectedGenre, sortBy, page],
+    queryKey: ["movies", "discover", selectedMediaType, selectedGenre, sortBy, page],
     queryFn: () =>
       api.get<MovieListResponse>("/movies", {
+        media_type: selectedMediaType,
         genre_id: selectedGenre,
         sort_by: sortBy,
         page,
-        page_size: 16,
+        page_size: 20,
       }),
   });
 
@@ -37,45 +39,81 @@ export default function DiscoverPage() {
         <div>
           <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">Discover Catalog</h1>
           <p className="text-xs sm:text-sm text-zinc-400 mt-1 font-medium">
-            Filter through cinematic releases by genre, ratings, and popularity
+            Explore verified Hindi blockbusters, classic cinema, and premier web series
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="flex items-center gap-2.5 flex-wrap">
-          {/* Genre select */}
-          <div className="flex-1 sm:flex-none">
-            <select
-              value={selectedGenre || ""}
-              onChange={(e) => {
-                setSelectedGenre(e.target.value ? Number(e.target.value) : undefined);
-                setPage(1);
-              }}
-              className="w-full sm:w-auto rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2.5 text-xs font-bold text-zinc-100 focus:border-brand-500 focus:outline-none shadow-md cursor-pointer"
+        {/* Media Type Tabs & Filters */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
+          {/* Media Type Toggle */}
+          <div className="flex items-center bg-black/60 p-1 rounded-xl border border-cinema-border shadow-inner">
+            <button
+              onClick={() => { setSelectedMediaType(undefined); setPage(1); }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                selectedMediaType === undefined
+                  ? "bg-brand-600 text-white shadow-md"
+                  : "text-zinc-400 hover:text-white"
+              }`}
             >
-              <option value="">All Genres</option>
-              {genres?.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.name}
-                </option>
-              ))}
-            </select>
+              All
+            </button>
+            <button
+              onClick={() => { setSelectedMediaType("Movie"); setPage(1); }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                selectedMediaType === "Movie"
+                  ? "bg-brand-600 text-white shadow-md"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              Movies
+            </button>
+            <button
+              onClick={() => { setSelectedMediaType("Series"); setPage(1); }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                selectedMediaType === "Series"
+                  ? "bg-brand-600 text-white shadow-md"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              Web Series
+            </button>
           </div>
 
-          {/* Sort select */}
-          <div className="flex-1 sm:flex-none">
-            <select
-              value={sortBy}
-              onChange={(e) => {
-                setSortBy(e.target.value);
-                setPage(1);
-              }}
-              className="w-full sm:w-auto rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2.5 text-xs font-bold text-zinc-100 focus:border-brand-500 focus:outline-none shadow-md cursor-pointer"
-            >
-              <option value="popularity.desc">Most Popular</option>
-              <option value="vote_average.desc">Highest Rated</option>
-              <option value="release_date.desc">Newest Releases</option>
-            </select>
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Genre select */}
+            <div className="flex-1 sm:flex-none">
+              <select
+                value={selectedGenre || ""}
+                onChange={(e) => {
+                  setSelectedGenre(e.target.value ? Number(e.target.value) : undefined);
+                  setPage(1);
+                }}
+                className="w-full sm:w-auto rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2 text-xs font-bold text-zinc-100 focus:border-brand-500 focus:outline-none shadow-md cursor-pointer"
+              >
+                <option value="">All Genres</option>
+                {genres?.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sort select */}
+            <div className="flex-1 sm:flex-none">
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  setPage(1);
+                }}
+                className="w-full sm:w-auto rounded-xl border border-cinema-border bg-cinema-card px-3.5 py-2 text-xs font-bold text-zinc-100 focus:border-brand-500 focus:outline-none shadow-md cursor-pointer"
+              >
+                <option value="popularity.desc">Most Popular</option>
+                <option value="vote_average.desc">Highest Rated</option>
+                <option value="release_date.desc">Newest Releases</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
