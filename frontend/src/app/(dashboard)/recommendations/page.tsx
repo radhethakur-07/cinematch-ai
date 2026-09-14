@@ -29,7 +29,17 @@ export default function RecommendationsPage() {
     "Gritty crime caper with iconic dialogue"
   ];
 
-  const currentList = aiResult ? aiResult.recommendations : recData?.recommendations || [];
+  const baseList = aiResult ? aiResult.recommendations : recData?.recommendations || [];
+  const currentList = [...baseList];
+  if (!aiResult) {
+    const mirzapurIdx = currentList.findIndex(
+      (m) => m.id === 804680 || m.title.toLowerCase().includes("mirzapur")
+    );
+    if (mirzapurIdx > 0) {
+      const [mirzapur] = currentList.splice(mirzapurIdx, 1);
+      currentList.unshift(mirzapur);
+    }
+  }
 
   return (
     <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">

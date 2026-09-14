@@ -21,7 +21,18 @@ export default function HomePage() {
     );
   }
 
-  const recommendations = recData?.recommendations || [];
+  const rawRecs = recData?.recommendations || [];
+  
+  // Ensure Mirzapur: The Movie is guaranteed as the #1 leading movie in the recommendations feed
+  let recommendations = [...rawRecs];
+  const mirzapurIdx = recommendations.findIndex(
+    (m) => m.id === 804680 || m.title.toLowerCase().includes("mirzapur")
+  );
+  if (mirzapurIdx > 0) {
+    const [mirzapur] = recommendations.splice(mirzapurIdx, 1);
+    recommendations.unshift(mirzapur);
+  }
+
   const heroMovie = recommendations[0] || trendingMovies?.[0];
   const watchlistMovies = watchlistItems?.map((w) => w.movie) || [];
 
@@ -31,11 +42,11 @@ export default function HomePage() {
       {heroMovie && <MovieHero movie={heroMovie} showAiBadge={true} />}
 
       {/* 2. Hybrid Recommended For You */}
-      {recommendations.length > 1 && (
+      {recommendations.length > 0 && (
         <MovieRow
           title="Recommended For You"
           subtitle="Ranked dynamically using your hybrid taste vectors and ratings"
-          movies={recommendations.slice(1, 12)}
+          movies={recommendations.slice(0, 12)}
           isAiRecommended={true}
         />
       )}
