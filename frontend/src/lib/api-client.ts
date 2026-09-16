@@ -63,6 +63,7 @@ class ApiClient {
         const errorMessage =
           errorData?.error?.message ||
           errorData?.message ||
+          errorData?.detail ||
           `API Error: ${res.status} ${res.statusText}`;
 
         throw new Error(errorMessage);

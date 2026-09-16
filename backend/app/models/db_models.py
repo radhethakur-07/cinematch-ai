@@ -12,6 +12,7 @@ class Profile(Base):
     __tablename__ = "profiles"
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     email = Column(String(255), unique=True, nullable=False)
+    password_hash = Column(String(255), nullable=True)
     full_name = Column(String(255), nullable=True)
     avatar_url = Column(Text, nullable=True)
     is_admin = Column(Boolean, default=False)
