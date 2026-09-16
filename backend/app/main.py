@@ -6,7 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app.core.config import settings
-from app.core.database import engine, Base, SessionLocal
+from app.core.database import engine, Base, SessionLocal, run_auto_migrations
 import app.models.db_models  # Ensure models are registered on Base.metadata
 from app.core.errors import AppException, app_exception_handler, validation_exception_handler, general_exception_handler
 from app.core.logging import logger, RequestLoggingMiddleware
@@ -18,9 +18,11 @@ from app.services.movie_service import movie_service
 async def lifespan(app: FastAPI):
     logger.info("[CineMatch AI] Starting up API server...")
     try:
-        # Create tables if not exist (e.g. SQLite local dev or test)
+        # 1. Create tables if not exist (e.g. SQLite local dev or test)
         Base.metadata.create_all(bind=engine)
-        logger.info("[CineMatch AI] Database schema initialized.")
+        # 2. Run auto-migrations for missing columns across SQLite & Supabase PostgreSQL
+        run_auto_migrations(engine)
+        logger.info("[CineMatch AI] Database schema initialized and migrated.")
         
         # Warm up recommendation engine and sync catalog
         db = SessionLocal()

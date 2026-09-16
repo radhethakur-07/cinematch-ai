@@ -8,6 +8,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255),
     full_name VARCHAR(255),
     avatar_url TEXT,
     is_admin BOOLEAN DEFAULT FALSE,
@@ -40,6 +41,11 @@ CREATE TABLE IF NOT EXISTS public.movies (
     trailer_url VARCHAR(255),
     budget BIGINT DEFAULT 0,
     revenue BIGINT DEFAULT 0,
+    media_type VARCHAR(20) DEFAULT 'Movie',
+    number_of_seasons INT,
+    number_of_episodes INT,
+    language VARCHAR(10) DEFAULT 'hi',
+    creator VARCHAR(255),
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
