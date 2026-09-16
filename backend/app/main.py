@@ -12,29 +12,40 @@ from app.core.errors import AppException, app_exception_handler, validation_exce
 from app.core.logging import logger, RequestLoggingMiddleware
 from app.api.v1.api import api_router
 from app.services.recommendation_service import recommendation_service
-from app.services.movie_service import movie_service
+import asyncio
+from app.services.movie_service import DEFAULT_CATALOG
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    logger.info("[CineMatch AI] Starting up API server...")
+async def background_startup_tasks():
+    """Run database schema migration and catalog warmup in background so port opens immediately."""
+    await asyncio.sleep(0.1)  # Yield to event loop so uvicorn binds to port first
     try:
-        # 1. Create tables if not exist (e.g. SQLite local dev or test)
-        Base.metadata.create_all(bind=engine)
-        # 2. Run auto-migrations for missing columns across SQLite & Supabase PostgreSQL
-        run_auto_migrations(engine)
-        logger.info("[CineMatch AI] Database schema initialized and migrated.")
-        
-        # Warm up recommendation engine and sync catalog
+        # Run blocking DB operations in threadpool so it doesn't block event loop
+        await asyncio.to_thread(Base.metadata.create_all, bind=engine)
+        await asyncio.to_thread(run_auto_migrations, engine)
+        logger.info("[CineMatch AI] Background database schema initialized and migrated.")
+
         db = SessionLocal()
         try:
-            movie_service.seed_or_sync_catalog(db)
-            movies = movie_service.get_all_movies(db)
+            movies = await asyncio.to_thread(movie_service.get_all_movies, db)
             recommendation_service.initialize(movies)
             logger.info(f"[CineMatch AI] Preloaded {len(movies)} movies into recommendation engine.")
         finally:
             db.close()
     except Exception as e:
-        logger.warning(f"[CineMatch AI] Startup initialization notice: {e}")
+        logger.warning(f"[CineMatch AI] Background startup notice: {e}")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("[CineMatch AI] Starting up API server...")
+    # Initialize in-memory recommendation service immediately with default catalog (0.01s)
+    try:
+        recommendation_service.initialize(DEFAULT_CATALOG)
+    except Exception as e:
+        logger.warning(f"[CineMatch AI] In-memory init notice: {e}")
+
+    # Launch background DB sync & migrations without blocking Render port scan
+    asyncio.create_task(background_startup_tasks())
+
     yield
     logger.info("[CineMatch AI] Shutting down API server...")
 
