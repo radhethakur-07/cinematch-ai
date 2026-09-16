@@ -160,14 +160,21 @@ export default function RecommendationsPage() {
         </div>
 
         {recLoading || aiSearch.isPending ? (
-          <div className="py-20 flex flex-col items-center justify-center space-y-3">
-            <Loader2 className="h-8 w-8 text-brand-500 animate-spin" />
-            <p className="text-sm text-zinc-400">Computing hybrid rankings & explainability signals...</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            {Array.from({ length: 15 }).map((_, i) => (
+              <div key={i} className="space-y-2 animate-fade-in-up" style={{ animationDelay: `${i * 30}ms` }}>
+                <div className="skeleton aspect-[2/3] w-full rounded-2xl" />
+                <div className="skeleton h-3.5 w-3/4 rounded" />
+                <div className="skeleton h-3 w-1/2 rounded" />
+              </div>
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-            {currentList.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} showMatchPercentage={true} />
+            {currentList.map((movie, i) => (
+              <div key={movie.id} className="animate-scale-in" style={{ animationDelay: `${Math.min(i * 30, 300)}ms` }}>
+                <MovieCard movie={movie} showMatchPercentage={true} />
+              </div>
             ))}
           </div>
         )}
