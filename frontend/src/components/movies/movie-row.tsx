@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight, Sparkles, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Movie } from "@/types";
 import { MovieCard } from "@/components/movies/movie-card";
 import Link from "next/link";
@@ -20,7 +20,7 @@ export function MovieRow({ title, subtitle, movies, isAiRecommended = false, vie
   const scroll = (direction: "left" | "right") => {
     if (rowRef.current) {
       const { scrollLeft, clientWidth } = rowRef.current;
-      const scrollAmount = clientWidth * 0.8;
+      const scrollAmount = clientWidth * 0.75;
       rowRef.current.scrollTo({
         left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
         behavior: "smooth",
@@ -31,26 +31,22 @@ export function MovieRow({ title, subtitle, movies, isAiRecommended = false, vie
   if (!movies || movies.length === 0) return null;
 
   return (
-    <section className="relative group/row my-8 sm:my-10 z-10">
+    <section className="relative group/row my-6 sm:my-8">
       {/* Row Header */}
-      <div className="flex items-end justify-between px-3 sm:px-6 lg:px-8 mb-4 sm:mb-5">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2.5">
-            {isAiRecommended && (
-              <div className="h-5 w-1 rounded-full bg-gradient-to-b from-brand-500 to-brand-violet flex-shrink-0" />
-            )}
-            <h2 className="text-lg sm:text-2xl font-black tracking-tight text-white drop-shadow">
+      <div className="flex items-end justify-between px-4 sm:px-6 lg:px-8 mb-3 sm:mb-4">
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-2">
+            <h2 className="text-base sm:text-lg font-semibold tracking-tight text-cinema-text">
               {title}
             </h2>
             {isAiRecommended && (
-              <span className="flex items-center gap-1 rounded-full bg-gradient-to-r from-brand-600/30 to-purple-600/30 border border-brand-500/50 px-2.5 py-0.5 text-[10px] sm:text-xs font-extrabold text-brand-300 shadow-md">
-                <Sparkles className="h-3 w-3 text-cyan-400 animate-pulse" />
-                Hybrid AI
+              <span className="rounded-full bg-crimson-soft border border-crimson/25 px-2 py-0.5 text-[10px] font-medium text-crimson">
+                AI Ranked
               </span>
             )}
           </div>
           {subtitle && (
-            <p className="text-[11px] sm:text-xs text-zinc-500 font-medium pl-0.5">{subtitle}</p>
+            <p className="text-xs text-cinema-muted font-normal">{subtitle}</p>
           )}
         </div>
 
@@ -58,24 +54,24 @@ export function MovieRow({ title, subtitle, movies, isAiRecommended = false, vie
           {viewAllHref && (
             <Link
               href={viewAllHref}
-              className="hidden sm:flex items-center gap-1 text-xs font-bold text-zinc-400 hover:text-brand-400 transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-medium text-cinema-secondary hover:text-cinema-text transition-colors"
             >
-              View All
-              <ArrowRight className="h-3.5 w-3.5" />
+              <span>View all</span>
+              <ArrowRight className="h-3 w-3" />
             </Link>
           )}
 
-          <div className="hidden sm:flex items-center gap-1.5 opacity-0 group-hover/row:opacity-100 transition-all duration-300">
+          <div className="hidden sm:flex items-center gap-1 opacity-0 group-hover/row:opacity-100 transition-opacity duration-200">
             <button
               onClick={() => scroll("left")}
-              className="p-2 rounded-full bg-cinema-card/90 border border-cinema-border text-zinc-400 hover:text-white hover:bg-brand-600 hover:border-brand-500 hover:shadow-lg hover:shadow-brand-600/30 transition-all shadow-md cursor-pointer active:scale-90"
+              className="p-1.5 rounded-control bg-cinema-surface border border-cinema-border text-cinema-secondary hover:text-cinema-text hover:bg-cinema-hover transition-colors cursor-pointer"
               aria-label="Scroll left"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-2 rounded-full bg-cinema-card/90 border border-cinema-border text-zinc-400 hover:text-white hover:bg-brand-600 hover:border-brand-500 hover:shadow-lg hover:shadow-brand-600/30 transition-all shadow-md cursor-pointer active:scale-90"
+              className="p-1.5 rounded-control bg-cinema-surface border border-cinema-border text-cinema-secondary hover:text-cinema-text hover:bg-cinema-hover transition-colors cursor-pointer"
               aria-label="Scroll right"
             >
               <ChevronRight className="h-4 w-4" />
@@ -84,24 +80,21 @@ export function MovieRow({ title, subtitle, movies, isAiRecommended = false, vie
         </div>
       </div>
 
-      {/* Horizontal Carousel with Edge Fade */}
+      {/* Horizontal Carousel */}
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-4 w-6 sm:w-10 bg-gradient-to-r from-cinema-bg to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-4 w-6 sm:w-10 bg-gradient-to-l from-cinema-bg to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-3 w-4 sm:w-8 bg-gradient-to-r from-cinema-void to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-3 w-4 sm:w-8 bg-gradient-to-l from-cinema-void to-transparent z-10 pointer-events-none" />
 
         <div
           ref={rowRef}
-          className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-none px-3 sm:px-6 lg:px-8 touch-scroll pb-4"
+          className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-none px-4 sm:px-6 lg:px-8 touch-scroll pb-2"
           style={{ scrollSnapType: "x mandatory" }}
         >
-          {movies.map((movie, idx) => (
+          {movies.map((movie) => (
             <div
               key={movie.id}
-              className="min-w-[145px] sm:min-w-[190px] md:min-w-[215px] max-w-[215px] flex-shrink-0 animate-fade-in-up"
-              style={{
-                scrollSnapAlign: "start",
-                animationDelay: `${Math.min(idx * 40, 320)}ms`,
-              }}
+              className="min-w-[140px] sm:min-w-[175px] md:min-w-[195px] max-w-[195px] flex-shrink-0"
+              style={{ scrollSnapAlign: "start" }}
             >
               <MovieCard movie={movie} showMatchPercentage={isAiRecommended} />
             </div>

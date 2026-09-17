@@ -16,7 +16,7 @@ const config: Config = {
         lg: "2rem",
       },
       screens: {
-        "2xl": "1400px",
+        "2xl": "1280px",
       },
     },
     extend: {
@@ -26,53 +26,69 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        brand: {
-          50: "#fff1f2",
-          100: "#ffe4e6",
-          400: "#fb7185",
-          500: "#f43f5e",
-          600: "#e11d48", // Saturated Ruby Red
-          700: "#be123c",
-          800: "#9f1239",
-          900: "#881337",
-          950: "#4c0519",
-          accent: "#06b6d4",
-          violet: "#8b5cf6",
-          gold: "#f59e0b",
-        },
+        // Core Design Tokens
         cinema: {
-          bg: "#07080d", // Deepest Cinematic Obsidian
-          surface: "#0e1017", // Rich Surface
-          card: "#131622", // Saturated Deep Card
-          hover: "#1c2030",
-          border: "#24293d", // High Contrast Border
-          borderHover: "#3b4466",
-          muted: "#94a3b8",
+          void: "#090A0D",
+          bg: "#090A0D",
+          surface: "#101216",
+          card: "#101216",
+          elevated: "#16181D",
+          hover: "#1C1F25",
+          border: "#292C33",
+          "border-subtle": "#202329",
+          text: "#F4F2ED",
+          secondary: "#C1C0BC",
+          muted: "#94959A",
+          disabled: "#66686D",
+        },
+        crimson: {
+          DEFAULT: "#D94B56",
+          hover: "#E65B66",
+          dark: "#B83B46",
+          soft: "rgba(217, 75, 86, 0.12)",
+        },
+        gold: {
+          DEFAULT: "#D6B56D",
+          soft: "rgba(214, 181, 109, 0.12)",
+        },
+        brand: {
+          500: "#D94B56",
+          600: "#D94B56",
+          700: "#B83B46",
+          gold: "#D6B56D",
+          violet: "#8b5cf6",
+        },
+        semantic: {
+          success: "#6FA884",
+          warning: "#D2A45A",
+          danger: "#C96B73",
+          info: "#7E9BB7",
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "cinema-gradient": "linear-gradient(180deg, rgba(7,8,13,0) 0%, rgba(7,8,13,0.85) 60%, rgba(7,8,13,1) 100%)",
-        "rich-hero": "radial-gradient(ellipse at top, #be123c33 0%, #7c3aed22 35%, #07080d 70%)",
-        "glow-conic": "conic-gradient(from 180deg at 50% 50%, #e11d48 0deg, #8b5cf6 120deg, #06b6d4 240deg, #e11d48 360deg)",
+        control: "8px",
+        btn: "10px",
+        card: "12px",
+        panel: "16px",
+        hero: "20px",
       },
       boxShadow: {
-        "rich-red": "0 10px 40px -10px rgba(225, 29, 72, 0.45)",
-        "rich-purple": "0 10px 40px -10px rgba(139, 92, 246, 0.4)",
-        "rich-card": "0 12px 36px -8px rgba(0, 0, 0, 0.75)",
+        subtle: "0 1px 3px 0 rgba(0, 0, 0, 0.35)",
+        card: "0 4px 20px -2px rgba(0, 0, 0, 0.45)",
+        elevated: "0 8px 30px -4px rgba(0, 0, 0, 0.6)",
+        modal: "0 20px 40px -8px rgba(0, 0, 0, 0.8)",
       },
       animation: {
-        "fade-in": "fadeIn 0.4s ease-in-out",
-        "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "fade-in": "fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+        "fade-in-up": "fadeInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
       },
       keyframes: {
         fadeIn: {
-          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(6px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
@@ -81,3 +97,4 @@ const config: Config = {
   plugins: [],
 };
 export default config;
+

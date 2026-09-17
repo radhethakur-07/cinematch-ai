@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   Radar,
@@ -34,18 +34,18 @@ export function GenreRadarChart({ affinities }: GenreRadarProps) {
   if (!data || data.length === 0) return null;
 
   return (
-    <div className="w-full h-64 sm:h-72">
+    <div className="w-full h-60 sm:h-64">
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart data={data} cx="50%" cy="50%" outerRadius="75%">
-          <PolarGrid stroke="#232738" />
-          <PolarAngleAxis dataKey="genre" stroke="#a1a1aa" fontSize={11} tick={{ fill: "#d4d4d8" }} />
-          <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#3f3f46" fontSize={10} />
+        <RadarChart data={data} cx="50%" cy="50%" outerRadius="72%">
+          <PolarGrid stroke="#202329" />
+          <PolarAngleAxis dataKey="genre" stroke="#94959A" fontSize={11} tick={{ fill: "#C1C0BC" }} />
+          <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#292C33" fontSize={10} />
           <Radar
             name="Affinity %"
             dataKey="affinity"
-            stroke="#f43f5e"
-            fill="#f43f5e"
-            fillOpacity={0.4}
+            stroke="#D94B56"
+            fill="#D94B56"
+            fillOpacity={0.25}
           />
         </RadarChart>
       </ResponsiveContainer>
@@ -73,22 +73,22 @@ export function RatingsBarChart({ distribution }: RatingsBarChartProps) {
   ];
 
   return (
-    <div className="w-full h-64">
+    <div className="w-full h-56">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <XAxis dataKey="name" stroke="#71717a" fontSize={12} />
-          <YAxis stroke="#71717a" fontSize={12} allowDecimals={false} />
+          <XAxis dataKey="name" stroke="#94959A" fontSize={11} />
+          <YAxis stroke="#94959A" fontSize={11} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ backgroundColor: "#12141d", borderColor: "#232738", borderRadius: "8px", color: "#fff" }}
+            contentStyle={{ backgroundColor: "#101216", borderColor: "#292C33", borderRadius: "8px", color: "#F4F2ED" }}
           />
-          <Bar dataKey="count" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="count" fill="#D6B56D" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
 }
 
-const COLORS = ["#f43f5e", "#06b6d4", "#f59e0b", "#10b981", "#8b5cf6", "#ec4899", "#3b82f6", "#64748b"];
+const RESTRAINED_COLORS = ["#D94B56", "#D6B56D", "#7E9BB7", "#6FA884", "#B83B46", "#C1C0BC"];
 
 interface GenrePieChartProps {
   genres: { genre: string; count: number; percentage: number }[];
@@ -96,25 +96,25 @@ interface GenrePieChartProps {
 
 export function GenrePieChart({ genres }: GenrePieChartProps) {
   return (
-    <div className="w-full h-64">
+    <div className="w-full h-56">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={genres}
             cx="50%"
             cy="50%"
-            innerRadius={50}
-            outerRadius={80}
-            paddingAngle={4}
+            innerRadius={45}
+            outerRadius={75}
+            paddingAngle={3}
             dataKey="count"
             nameKey="genre"
           >
             {genres.map((_, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell key={`cell-${index}`} fill={RESTRAINED_COLORS[index % RESTRAINED_COLORS.length]} />
             ))}
           </Pie>
           <Tooltip
-            contentStyle={{ backgroundColor: "#12141d", borderColor: "#232738", borderRadius: "8px", color: "#fff" }}
+            contentStyle={{ backgroundColor: "#101216", borderColor: "#292C33", borderRadius: "8px", color: "#F4F2ED" }}
           />
         </PieChart>
       </ResponsiveContainer>
@@ -128,17 +128,17 @@ interface ActivityTrendChartProps {
 
 export function ActivityTrendChart({ activity }: ActivityTrendChartProps) {
   return (
-    <div className="w-full h-64">
+    <div className="w-full h-56">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={activity} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <CartesianGrid stroke="#232738" strokeDasharray="3 3" />
-          <XAxis dataKey="date" stroke="#71717a" fontSize={11} />
-          <YAxis stroke="#71717a" fontSize={11} />
+          <CartesianGrid stroke="#202329" strokeDasharray="3 3" />
+          <XAxis dataKey="date" stroke="#94959A" fontSize={11} />
+          <YAxis stroke="#94959A" fontSize={11} />
           <Tooltip
-            contentStyle={{ backgroundColor: "#12141d", borderColor: "#232738", borderRadius: "8px", color: "#fff" }}
+            contentStyle={{ backgroundColor: "#101216", borderColor: "#292C33", borderRadius: "8px", color: "#F4F2ED" }}
           />
-          <Line type="monotone" dataKey="recommendations_count" name="Rec Requests" stroke="#06b6d4" strokeWidth={2} dot={false} />
-          <Line type="monotone" dataKey="ratings_count" name="Ratings" stroke="#f43f5e" strokeWidth={2} dot={false} />
+          <Line type="monotone" dataKey="recommendations_count" name="Rec Requests" stroke="#7E9BB7" strokeWidth={1.5} dot={false} />
+          <Line type="monotone" dataKey="ratings_count" name="Ratings" stroke="#D94B56" strokeWidth={1.5} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>

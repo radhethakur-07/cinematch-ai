@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { Star, X } from "lucide-react";
@@ -37,33 +37,33 @@ export function RatingDialog({
   };
 
   const ratingLabels: Record<number, string> = {
-    1: "1★ - Poor",
-    2: "2★ - Mediocre",
-    3: "3★ - Good",
-    4: "4★ - Great",
-    5: "5★ - Masterpiece",
+    1: "1★ · Poor",
+    2: "2★ · Fair",
+    3: "3★ · Good",
+    4: "4★ · Great",
+    5: "5★ · Masterpiece",
   };
 
   const activeStar = hoveredStar !== null ? hoveredStar : selectedRating;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-md rounded-2xl border border-cinema-border bg-cinema-card p-6 shadow-2xl space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-cinema-void/85 backdrop-blur-sm p-4 animate-fade-in">
+      <div className="relative w-full max-w-sm rounded-panel border border-cinema-border bg-cinema-surface p-6 shadow-modal space-y-4">
         <button
           onClick={() => onOpenChange(false)}
-          className="absolute top-4 right-4 rounded-full p-1 text-zinc-400 hover:text-white"
+          className="absolute top-4 right-4 p-1 rounded-control text-cinema-muted hover:text-cinema-text hover:bg-cinema-hover transition-colors"
         >
-          <X className="h-5 w-5" />
+          <X className="h-4 w-4" />
         </button>
 
         <div className="text-center space-y-1">
-          <h3 className="text-lg font-bold text-white">Rate Movie</h3>
-          <p className="text-sm text-zinc-400 line-clamp-1">{movieTitle}</p>
+          <h3 className="text-base font-semibold text-cinema-text">Rate Film</h3>
+          <p className="text-xs text-cinema-muted line-clamp-1">{movieTitle}</p>
         </div>
 
         {/* Stars Selector */}
-        <div className="flex flex-col items-center justify-center gap-3 py-2">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center justify-center gap-2 py-2">
+          <div className="flex items-center gap-1.5">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
@@ -71,32 +71,32 @@ export function RatingDialog({
                 onMouseEnter={() => setHoveredStar(star)}
                 onMouseLeave={() => setHoveredStar(null)}
                 onClick={() => setSelectedRating(star)}
-                className="p-1 transition-transform hover:scale-125 focus:outline-none"
+                className="p-1 transition-transform hover:scale-110 focus:outline-none"
               >
                 <Star
-                  className={`h-8 w-8 ${
+                  className={`h-7 w-7 ${
                     star <= activeStar
-                      ? "fill-amber-400 text-amber-400"
-                      : "text-zinc-600 hover:text-zinc-400"
+                      ? "fill-gold text-gold"
+                      : "text-cinema-border hover:text-cinema-secondary"
                   } transition-colors`}
                 />
               </button>
             ))}
           </div>
-          <span className="text-sm font-semibold text-amber-400 h-5">
+          <span className="text-xs font-medium text-gold h-4">
             {ratingLabels[activeStar] || ""}
           </span>
         </div>
 
-        <p className="text-xs text-center text-zinc-400">
-          Your rating immediately tunes your collaborative and hybrid recommendation profile.
+        <p className="text-[11px] text-center text-cinema-muted">
+          Your rating helps fine-tune your collaborative and hybrid recommendation model.
         </p>
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-2.5 pt-2">
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="flex-1 rounded-lg border border-cinema-border px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-white/5 transition-colors"
+            className="flex-1 rounded-btn border border-cinema-border px-3.5 py-2 text-xs font-medium text-cinema-secondary hover:bg-cinema-hover transition-colors cursor-pointer"
           >
             Cancel
           </button>
@@ -104,9 +104,9 @@ export function RatingDialog({
             type="button"
             onClick={handleSubmit}
             disabled={rateMovie.isPending}
-            className="flex-1 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-500 transition-all shadow-md shadow-brand-600/30 disabled:opacity-50"
+            className="flex-1 rounded-btn bg-crimson hover:bg-crimson-hover px-3.5 py-2 text-xs font-semibold text-white shadow-subtle transition-colors cursor-pointer disabled:opacity-50"
           >
-            {rateMovie.isPending ? "Submitting..." : "Save Rating"}
+            {rateMovie.isPending ? "Saving..." : "Save Rating"}
           </button>
         </div>
       </div>

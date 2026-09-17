@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Star, Bookmark, Check, Sparkles, Film, Play } from "lucide-react";
+import { Star, Bookmark, Check, Film } from "lucide-react";
 import { Movie } from "@/types";
 import { formatReleaseYear, getTMDBImageUrl } from "@/lib/utils";
 import { useToggleWatchlist } from "@/hooks/use-movies";
@@ -36,46 +36,38 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
   return (
     <Link
       href={`/movie/${movie.id}`}
-      className="group relative flex flex-col h-full rounded-2xl overflow-hidden bg-gradient-to-b from-cinema-card via-cinema-surface to-cinema-bg border border-cinema-border hover:border-brand-600/70 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-900/50 hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-brand-500 card-glow"
+      className="group relative flex flex-col h-full rounded-card overflow-hidden bg-cinema-surface border border-cinema-border hover:border-cinema-secondary/35 transition-all duration-200 hover:shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-crimson"
     >
       {/* Poster Image Container */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-950">
+      <div className="relative aspect-[2/3] w-full overflow-hidden bg-cinema-elevated">
         {!imgError ? (
           <Image
             src={imageUrl}
             alt={movie.title}
             fill
             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 25vw, 18vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-75"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.03] group-hover:brightness-95"
             loading="lazy"
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-cinema-card via-brand-950/40 to-black flex flex-col items-center justify-center p-3 text-center">
-            <Film className="h-8 w-8 text-brand-500/80 mb-1.5 animate-pulse" />
-            <span className="text-xs font-bold text-zinc-200 line-clamp-2">{movie.title}</span>
-            <span className="text-[10px] text-zinc-400 mt-1">{formatReleaseYear(movie.release_date)}</span>
+          <div className="absolute inset-0 bg-cinema-elevated flex flex-col items-center justify-center p-3 text-center">
+            <Film className="h-6 w-6 text-cinema-muted mb-1" />
+            <span className="text-xs font-semibold text-cinema-text line-clamp-2">{movie.title}</span>
+            <span className="text-[11px] text-cinema-muted mt-0.5">{formatReleaseYear(movie.release_date)}</span>
           </div>
         )}
 
-        {/* Play Overlay on Hover */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          <div className="w-12 h-12 rounded-full bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center shadow-2xl">
-            <Play className="h-5 w-5 text-white fill-white ml-0.5" />
-          </div>
-        </div>
-
-        {/* Top Badges */}
+        {/* Top Badges & Watchlist Overlay */}
         <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
           <div className="flex items-center gap-1.5 flex-wrap">
             {showMatchPercentage && (
-              <span className="flex items-center gap-1 rounded-full bg-black/85 backdrop-blur-md px-2.5 py-0.5 text-[10px] sm:text-[11px] font-black text-emerald-300 border border-emerald-500/50 shadow-md">
-                <Sparkles className="h-3 w-3 text-emerald-400" />
-                {matchPct}%
+              <span className="flex items-center gap-1 rounded-full bg-cinema-void/85 border border-cinema-border px-2 py-0.5 text-[11px] font-medium text-cinema-text shadow-subtle">
+                <span className="text-crimson font-semibold">{matchPct}%</span> Match
               </span>
             )}
             {isSeries && (
-              <span className="rounded-full bg-brand-violet/90 backdrop-blur-md px-2 py-0.5 text-[9px] font-black tracking-wider uppercase text-white border border-purple-400/60 shadow-md">
+              <span className="rounded-full bg-cinema-void/85 border border-purple-800/50 px-2 py-0.5 text-[10px] font-medium text-purple-300">
                 Series
               </span>
             )}
@@ -84,10 +76,10 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
           {isAuthenticated && (
             <button
               onClick={handleWatchlistClick}
-              className={`pointer-events-auto p-1.5 sm:p-2 rounded-full backdrop-blur-md transition-all ${
+              className={`pointer-events-auto p-1.5 rounded-control transition-all ${
                 inWatchlist
-                  ? "bg-brand-600 text-white shadow-lg shadow-brand-600/60 scale-105"
-                  : "bg-black/70 text-zinc-300 hover:text-white hover:bg-brand-600 hover:scale-105 border border-white/10"
+                  ? "bg-crimson text-white shadow-subtle"
+                  : "bg-cinema-void/80 text-cinema-secondary hover:text-cinema-text hover:bg-cinema-elevated border border-cinema-border"
               }`}
               title={inWatchlist ? "In Watchlist" : "Add to Watchlist"}
             >
@@ -96,29 +88,27 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
           )}
         </div>
 
-        {/* Bottom Gradient */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-cinema-card via-cinema-card/70 to-transparent pointer-events-none" />
+        {/* Subtle Bottom Gradient */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-cinema-surface to-transparent pointer-events-none" />
       </div>
 
       {/* Card Info */}
-      <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5 bg-cinema-card">
+      <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5">
         <div>
-          <h3 className="font-bold text-xs sm:text-sm text-white line-clamp-1 group-hover:text-brand-400 transition-colors duration-200">
+          <h3 className="font-semibold text-xs sm:text-sm text-cinema-text line-clamp-1 group-hover:text-crimson transition-colors duration-150">
             {movie.title}
           </h3>
-          <div className="flex items-center gap-2 text-[11px] sm:text-xs text-zinc-400 mt-1 font-medium">
+          <div className="flex items-center gap-1.5 text-xs text-cinema-muted mt-1 font-normal">
             <span>{formatReleaseYear(movie.release_date)}</span>
-            <span className="text-zinc-700">•</span>
-            <span className="flex items-center gap-1 text-amber-300 font-bold">
-              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-              {movie.vote_average?.toFixed(1) || "7.5"}
+            <span className="text-cinema-border-subtle">·</span>
+            <span className="flex items-center gap-1 text-gold font-medium">
+              <Star className="h-3 w-3 fill-gold text-gold" />
+              {movie.vote_average ? movie.vote_average.toFixed(1) : "—"}
             </span>
             {movie.number_of_seasons && (
               <>
-                <span className="text-zinc-700">•</span>
-                <span className="text-[10px] text-brand-400 font-semibold">
-                  {movie.number_of_seasons}S
-                </span>
+                <span className="text-cinema-border-subtle">·</span>
+                <span>{movie.number_of_seasons} {movie.number_of_seasons === 1 ? 'Season' : 'Seasons'}</span>
               </>
             )}
           </div>
@@ -127,7 +117,7 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
         {/* Genres tag */}
         {movie.genres && movie.genres.length > 0 && (
           <div className="flex items-center gap-1 overflow-hidden pt-0.5">
-            <span className="text-[10px] font-semibold text-zinc-400 truncate">
+            <span className="text-[11px] text-cinema-muted truncate">
               {movie.genres.slice(0, 2).map((g) => g.name).join(" · ")}
             </span>
           </div>
@@ -136,4 +126,3 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
     </Link>
   );
 }
-

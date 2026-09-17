@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Save, Check, User, ShieldCheck, Sparkles, Loader2 } from "lucide-react";
+import { Settings, Save, Check, Loader2 } from "lucide-react";
 import { api } from "@/lib/api-client";
 import { useAuth } from "@/hooks/use-auth";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const ALL_GENRES = [
   { id: 878, name: "Science Fiction" },
@@ -46,15 +48,14 @@ export default function SettingsPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center space-y-4 px-4">
-        <Settings className="h-12 w-12 text-brand-500" />
-        <h2 className="text-2xl font-bold text-white">Sign In to Manage Settings</h2>
-        <button
-          onClick={() => router.push("/login")}
-          className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-500"
-        >
-          Sign In
-        </button>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
+        <EmptyState
+          icon={Settings}
+          title="Sign in to manage settings"
+          description="Update your display name and fine-tune your favorite genres for personalized recommendations."
+          actionLabel="Sign In"
+          onAction={() => router.push("/login")}
+        />
       </div>
     );
   }
@@ -90,68 +91,67 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <div className="border-b border-cinema-border/80 pb-6">
-        <h1 className="text-3xl font-extrabold text-white flex items-center gap-2">
-          <Settings className="h-7 w-7 text-brand-500" />
+    <div className="min-h-screen max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+      <div className="border-b border-cinema-border pb-6 space-y-1">
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-cinema-text">
           Account & Taste Settings
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-          Update profile details and fine-tune your recommendation algorithm weights
+        <p className="text-sm text-cinema-muted">
+          Update your profile details and fine-tune your personalized recommendation weights.
         </p>
       </div>
 
       {savedSuccess && (
-        <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-xs font-semibold text-emerald-300 flex items-center gap-2">
+        <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-4 text-xs font-medium text-emerald-300 flex items-center gap-2">
           <Check className="h-4 w-4 text-emerald-400" />
-          <span>Your profile preferences and ML weights were saved successfully.</span>
+          <span>Your preferences have been updated successfully.</span>
         </div>
       )}
 
       <form onSubmit={handleSave} className="space-y-8">
         {/* Profile Info */}
-        <div className="rounded-2xl border border-cinema-border bg-cinema-card p-6 space-y-4 shadow-xl">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
+        <div className="rounded-xl border border-cinema-border bg-cinema-surface p-6 space-y-4">
+          <h2 className="text-sm font-semibold text-cinema-text">
             Profile Information
-          </h3>
+          </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-zinc-400">Email Address (Read-only)</label>
+              <label className="text-xs text-cinema-muted">Email Address (Read-only)</label>
               <input
                 type="text"
                 disabled
                 value={user?.email || ""}
-                className="w-full rounded-xl bg-black/40 border border-cinema-border/50 px-3.5 py-2.5 text-sm text-zinc-400 cursor-not-allowed"
+                className="w-full rounded-lg bg-cinema-elevated border border-cinema-border-subtle px-3.5 py-2.5 text-xs text-cinema-muted cursor-not-allowed"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-zinc-300">Display Name</label>
+              <label className="text-xs text-cinema-text font-medium">Display Name</label>
               <input
                 type="text"
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Christopher Nolan"
-                className="w-full rounded-xl bg-black/40 border border-cinema-border px-3.5 py-2.5 text-sm text-zinc-100 focus:border-brand-500 focus:outline-none"
+                className="w-full rounded-lg bg-cinema-elevated border border-cinema-border px-3.5 py-2.5 text-xs text-cinema-text focus:border-crimson focus:outline-none transition-colors"
               />
             </div>
           </div>
         </div>
 
         {/* Favorite Genres Tuning */}
-        <div className="rounded-2xl border border-cinema-border bg-cinema-card p-6 space-y-4 shadow-xl">
+        <div className="rounded-xl border border-cinema-border bg-cinema-surface p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
-              Calibrated Favorite Genres
-            </h3>
-            <span className="text-xs text-brand-400 font-semibold">
+            <h2 className="text-sm font-semibold text-cinema-text">
+              Favorite Genres
+            </h2>
+            <span className="text-xs text-cinema-muted font-medium">
               {selectedGenres.length} selected
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
             {ALL_GENRES.map((g) => {
               const isSelected = selectedGenres.includes(g.id);
               return (
@@ -159,14 +159,14 @@ export default function SettingsPage() {
                   key={g.id}
                   type="button"
                   onClick={() => toggleGenre(g.id)}
-                  className={`flex items-center justify-between p-3 rounded-xl border text-xs font-semibold transition-all ${
+                  className={`flex items-center justify-between p-3 rounded-lg border text-xs font-medium transition-all ${
                     isSelected
-                      ? "border-brand-500 bg-brand-600/20 text-white"
-                      : "border-cinema-border bg-cinema-hover/40 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+                      ? "border-crimson/60 bg-crimson/10 text-crimson"
+                      : "border-cinema-border bg-cinema-elevated text-cinema-secondary hover:border-cinema-hover hover:text-cinema-text"
                   }`}
                 >
                   <span>{g.name}</span>
-                  {isSelected && <Check className="h-3.5 w-3.5 text-brand-400" />}
+                  {isSelected && <Check className="h-3.5 w-3.5 text-crimson" />}
                 </button>
               );
             })}
@@ -174,15 +174,15 @@ export default function SettingsPage() {
         </div>
 
         {/* Save Button */}
-        <div className="flex justify-end pt-4">
-          <button
+        <div className="flex justify-end pt-2">
+          <Button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-sm font-bold text-white hover:bg-brand-500 shadow-xl shadow-brand-600/30 transition-all disabled:opacity-50"
+            className="gap-2"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            <span>{saving ? "Saving Changes..." : "Save Settings"}</span>
-          </button>
+            <span>{saving ? "Saving Changes..." : "Save Preferences"}</span>
+          </Button>
         </div>
       </form>
     </div>

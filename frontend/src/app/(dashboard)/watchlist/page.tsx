@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useWatchlist } from "@/hooks/use-movies";
 import { MovieCard } from "@/components/movies/movie-card";
-import { Bookmark, Film, Loader2, Compass } from "lucide-react";
+import { Bookmark, Compass } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Button } from "@/components/ui/button";
 
 export default function WatchlistPage() {
   const { isAuthenticated } = useAuth();
@@ -12,35 +14,31 @@ export default function WatchlistPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center space-y-4 px-4">
-        <Bookmark className="h-12 w-12 text-brand-500" />
-        <h2 className="text-2xl font-bold text-white">Sign In to View Watchlist</h2>
-        <p className="text-sm text-zinc-400 max-w-md">
-          Save films you want to watch and tune your hybrid recommendation profile.
-        </p>
-        <Link
-          href="/login"
-          className="rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-500"
-        >
-          Sign In
-        </Link>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
+        <EmptyState
+          icon={Bookmark}
+          title="Sign in to view your watchlist"
+          description="Save titles you want to watch and tune your personalized recommendations."
+          actionLabel="Sign In"
+          onAction={() => window.location.href = "/login"}
+        />
       </div>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
         <div className="space-y-2">
-          <div className="skeleton h-8 w-48 rounded-xl" />
-          <div className="skeleton h-4 w-64 rounded-lg" />
+          <div className="skeleton h-8 w-44 rounded-lg" />
+          <div className="skeleton h-4 w-60 rounded-md" />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="space-y-2 animate-fade-in-up" style={{ animationDelay: `${i * 30}ms` }}>
-              <div className="skeleton aspect-[2/3] w-full rounded-2xl" />
-              <div className="skeleton h-3.5 w-3/4 rounded" />
-              <div className="skeleton h-3 w-1/2 rounded" />
+            <div key={i} className="space-y-2.5">
+              <div className="skeleton aspect-[2/3] w-full rounded-xl" />
+              <div className="skeleton h-4 w-3/4 rounded-md" />
+              <div className="skeleton h-3 w-1/2 rounded-md" />
             </div>
           ))}
         </div>
@@ -51,20 +49,19 @@ export default function WatchlistPage() {
   const movies = watchlist?.map((w) => w.movie) || [];
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-cinema-border/80 pb-6">
-        <div>
-          <h1 className="text-3xl font-extrabold text-white flex items-center gap-2">
-            <Bookmark className="h-7 w-7 text-brand-500" />
+      <div className="flex items-center justify-between border-b border-cinema-border pb-6">
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-cinema-text">
             My Watchlist
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-            Films queued for your upcoming movie nights
+          <p className="text-sm text-cinema-muted">
+            Titles saved for upcoming viewing sessions.
           </p>
         </div>
-        <span className="text-xs font-semibold text-zinc-300 bg-cinema-card border border-cinema-border px-3 py-1.5 rounded-lg">
-          {movies.length} {movies.length === 1 ? "Movie" : "Movies"}
+        <span className="text-xs font-medium text-cinema-muted bg-cinema-surface border border-cinema-border px-3 py-1.5 rounded-lg">
+          {movies.length} {movies.length === 1 ? "Title" : "Titles"}
         </span>
       </div>
 
@@ -76,20 +73,13 @@ export default function WatchlistPage() {
           ))}
         </div>
       ) : (
-        <div className="py-24 text-center space-y-4">
-          <Film className="h-12 w-12 text-zinc-600 mx-auto" />
-          <h3 className="text-lg font-bold text-white">Your Watchlist is Empty</h3>
-          <p className="text-sm text-zinc-400 max-w-md mx-auto">
-            Browse our catalog or AI recommendations and click the bookmark button to save movies.
-          </p>
-          <Link
-            href="/discover"
-            className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-500"
-          >
-            <Compass className="h-4 w-4" />
-            <span>Discover Movies</span>
-          </Link>
-        </div>
+        <EmptyState
+          icon={Bookmark}
+          title="Your watchlist is empty"
+          description="Browse the catalog or ask AI for recommendations and save titles to watch later."
+          actionLabel="Discover Movies"
+          onAction={() => window.location.href = "/discover"}
+        />
       )}
     </div>
   );
