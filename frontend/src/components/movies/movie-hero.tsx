@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Play, Bookmark, Check, Star, X, Info, Film, Calendar, Clock } from "lucide-react";
 import { Movie } from "@/types";
-import { getTMDBImageUrl, formatReleaseYear, formatRuntime } from "@/lib/utils";
+import { getMoviePosterUrl, getMovieBackdropUrl, formatReleaseYear, formatRuntime } from "@/lib/utils";
 import { useToggleWatchlist } from "@/hooks/use-movies";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -29,8 +29,8 @@ export function MovieHero({ movie, showAiBadge = true }: MovieHeroProps) {
   };
 
   const matchPct = movie.match_percentage || 94;
-  const backdropUrl = getTMDBImageUrl(movie.backdrop_path || movie.poster_path, "original");
-  const posterUrl = getTMDBImageUrl(movie.poster_path, "w500");
+  const backdropUrl = getMovieBackdropUrl(movie);
+  const posterUrl = getMoviePosterUrl(movie);
   const isSeries = movie.media_type === "Series" || !!movie.number_of_seasons;
 
   return (
@@ -45,7 +45,7 @@ export function MovieHero({ movie, showAiBadge = true }: MovieHeroProps) {
               alt={movie.title}
               fill
               priority
-              className="object-cover object-top opacity-30 scale-100"
+              className="object-cover object-center opacity-40 scale-100"
               onError={() => setImgError(true)}
             />
           ) : (
@@ -55,8 +55,8 @@ export function MovieHero({ movie, showAiBadge = true }: MovieHeroProps) {
           )}
 
           {/* Clean Editorial Dark Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-cinema-void via-cinema-void/70 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-cinema-void/90 via-cinema-void/60 to-transparent lg:w-3/4" />
+          <div className="absolute inset-0 bg-gradient-to-t from-cinema-void via-cinema-void/75 to-cinema-void/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-cinema-void/90 via-cinema-void/50 to-transparent lg:w-3/4" />
         </div>
 
         {/* Hero Content */}
@@ -64,13 +64,15 @@ export function MovieHero({ movie, showAiBadge = true }: MovieHeroProps) {
           <div className="flex flex-col lg:flex-row items-start lg:items-end gap-6 lg:gap-8">
 
             {/* Poster Thumbnail (Desktop) */}
-            <div className="hidden lg:block relative w-40 flex-shrink-0 rounded-card overflow-hidden border border-cinema-border shadow-elevated">
-              <div className="aspect-[2/3] relative bg-cinema-elevated">
+            <div className="hidden lg:block relative w-44 flex-shrink-0 rounded-xl overflow-hidden border border-cinema-border/80 shadow-2xl bg-cinema-elevated">
+              <div className="aspect-[2/3] relative w-full h-full">
                 <Image
                   src={posterUrl}
                   alt={movie.title}
                   fill
-                  className="object-cover"
+                  priority
+                  sizes="176px"
+                  className="object-cover rounded-xl"
                 />
               </div>
             </div>

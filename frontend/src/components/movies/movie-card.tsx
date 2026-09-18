@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Star, Bookmark, Check, Film } from "lucide-react";
 import { Movie } from "@/types";
-import { formatReleaseYear, getTMDBImageUrl } from "@/lib/utils";
+import { formatReleaseYear, getMoviePosterUrl } from "@/lib/utils";
 import { useToggleWatchlist } from "@/hooks/use-movies";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -30,7 +30,7 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
   };
 
   const matchPct = movie.match_percentage || (movie.vote_average ? Math.round(movie.vote_average * 10) : 85);
-  const imageUrl = getTMDBImageUrl(movie.poster_path, "w500");
+  const imageUrl = getMoviePosterUrl(movie);
   const isSeries = movie.media_type === "Series" || !!movie.number_of_seasons;
 
   return (

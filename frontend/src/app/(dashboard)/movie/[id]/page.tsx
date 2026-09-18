@@ -21,7 +21,7 @@ import {
 import { useMovieDetails, useSimilarMovies, useToggleWatchlist } from "@/hooks/use-movies";
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/api-client";
-import { getTMDBImageUrl, formatReleaseYear, formatRuntime } from "@/lib/utils";
+import { getMoviePosterUrl, getMovieBackdropUrl, formatReleaseYear, formatRuntime } from "@/lib/utils";
 import { RatingDialog } from "@/components/movies/rating-dialog";
 import { ExplainabilityBadge } from "@/components/movies/explainability-badge";
 import { MovieCard } from "@/components/movies/movie-card";
@@ -110,24 +110,25 @@ export default function MovieDetailPage() {
       <div className="relative w-full min-h-[460px] sm:min-h-[520px] overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src={getTMDBImageUrl(movie.backdrop_path || movie.poster_path, "original")}
+            src={getMovieBackdropUrl(movie)}
             alt={movie.title}
             fill
             priority
-            className="object-cover object-top opacity-25"
+            className="object-cover object-center opacity-35"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-cinema-void via-cinema-void/80 to-cinema-void/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-cinema-void/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-cinema-void/70 via-transparent to-transparent" />
         </div>
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10 flex flex-col md:flex-row gap-6 md:gap-10 items-start md:items-end">
           {/* Poster */}
-          <div className="relative w-36 sm:w-48 aspect-[2/3] rounded-xl overflow-hidden border border-cinema-border shadow-elevated flex-shrink-0">
+          <div className="relative w-36 sm:w-48 aspect-[2/3] rounded-xl overflow-hidden border border-cinema-border shadow-elevated flex-shrink-0 bg-cinema-elevated">
             <Image
-              src={getTMDBImageUrl(movie.poster_path, "w500")}
+              src={getMoviePosterUrl(movie)}
               alt={movie.title}
               fill
+              priority
               className="object-cover"
             />
           </div>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { History, Star, Bookmark, ThumbsUp, ThumbsDown, Eye, Calendar, Loader2 } from "lucide-react";
 import { useWatchHistory } from "@/hooks/use-movies";
 import { useAuth } from "@/hooks/use-auth";
-import { getTMDBImageUrl, formatReleaseYear } from "@/lib/utils";
+import { getMoviePosterUrl, formatReleaseYear } from "@/lib/utils";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export default function HistoryPage() {
@@ -96,7 +96,7 @@ export default function HistoryPage() {
               <div className="flex items-center gap-3.5 min-w-0">
                 <div className="relative w-12 aspect-[2/3] rounded-md overflow-hidden bg-cinema-elevated flex-shrink-0 border border-cinema-border-subtle">
                   <Image
-                    src={getTMDBImageUrl(item.movie?.poster_path, "w500")}
+                    src={getMoviePosterUrl(item.movie)}
                     alt={item.movie?.title || "Movie"}
                     fill
                     className="object-cover"
