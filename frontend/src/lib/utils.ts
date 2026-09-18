@@ -55,15 +55,19 @@ export const MOVIE_IMAGE_OVERRIDES: Record<
   },
   "kota factory": {
     poster: "https://m.media-amazon.com/images/M/MV5BY2U5MjY1NWEtZDI2MS00NTlhLWEyODQtYzE0MzY3NDUyNzE3XkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
-    backdrop: "https://i.ytimg.com/vi/pNZQ6msbO38/maxresdefault.jpg",
+    backdrop: "https://i.ytimg.com/vi/pNZQ6msbOvM/maxresdefault.jpg",
+  },
+  89113: {
+    poster: "https://m.media-amazon.com/images/M/MV5BY2U5MjY1NWEtZDI2MS00NTlhLWEyODQtYzE0MzY3NDUyNzE3XkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
+    backdrop: "https://i.ytimg.com/vi/pNZQ6msbOvM/maxresdefault.jpg",
   },
   9432978: {
     poster: "https://m.media-amazon.com/images/M/MV5BY2U5MjY1NWEtZDI2MS00NTlhLWEyODQtYzE0MzY3NDUyNzE3XkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
-    backdrop: "https://i.ytimg.com/vi/pNZQ6msbO38/maxresdefault.jpg",
+    backdrop: "https://i.ytimg.com/vi/pNZQ6msbOvM/maxresdefault.jpg",
   },
   87739: {
     poster: "https://m.media-amazon.com/images/M/MV5BY2U5MjY1NWEtZDI2MS00NTlhLWEyODQtYzE0MzY3NDUyNzE3XkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
-    backdrop: "https://i.ytimg.com/vi/pNZQ6msbO38/maxresdefault.jpg",
+    backdrop: "https://i.ytimg.com/vi/pNZQ6msbOvM/maxresdefault.jpg",
   },
   "special ops": {
     poster: "https://m.media-amazon.com/images/M/MV5BN2E3OTI0OGItMWRhMi00NjU1LTk1ZTctMDEwOWZiMDczOWNlXkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
@@ -90,15 +94,19 @@ export const MOVIE_IMAGE_OVERRIDES: Record<
     backdrop: "https://i.ytimg.com/vi/NHk7scrb_9I/maxresdefault.jpg",
   },
   "pritam and pedro": {
-    poster: "https://m.media-amazon.com/images/M/MV5BMDY4NDc1MjYtMDQyOS00YzgzLTg2MmEtNjI0MGVhODRiMDMzXkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
+    poster: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
+    backdrop: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
+  },
+  "pritam & pedro": {
+    poster: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
     backdrop: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
   },
   928172: {
-    poster: "https://m.media-amazon.com/images/M/MV5BMDY4NDc1MjYtMDQyOS00YzgzLTg2MmEtNjI0MGVhODRiMDMzXkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
+    poster: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
     backdrop: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
   },
   243206: {
-    poster: "https://m.media-amazon.com/images/M/MV5BMDY4NDc1MjYtMDQyOS00YzgzLTg2MmEtNjI0MGVhODRiMDMzXkEyXkFqcGc@._V1_Ratio0.6751_AL_.jpg",
+    poster: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
     backdrop: "https://i.ytimg.com/vi/uCjkRVV0-qU/maxresdefault.jpg",
   },
   "sacred games": {

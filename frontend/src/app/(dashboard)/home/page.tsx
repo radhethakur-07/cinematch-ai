@@ -11,7 +11,6 @@ const PRIORITY_TITLES = [
   "dhurandhar",
   "pritam and pedro",
   "kota factory",
-  "special ops 1.5",
   "special ops",
   "panchayat",
   "mirzapur",
@@ -21,6 +20,38 @@ const DEPRIORITIZED_TITLES = [
   "the glass breakfront",
   "freddy",
 ];
+
+function getCanonicalKey(m: Movie): string {
+  const t = (m.title || "").toLowerCase().trim();
+  if (t.startsWith("special ops")) return "special_ops";
+  if (t.includes("pritam and pedro") || t.includes("pritam & pedro")) return "pritam_and_pedro";
+  if (t.includes("mirzapur: the movie")) return "mirzapur_movie";
+  if (t === "mirzapur" || (t.includes("mirzapur") && !t.includes("movie"))) return "mirzapur_series";
+  if (t.includes("panchayat")) return "panchayat";
+  if (t.includes("kota factory")) return "kota_factory";
+  if (t.includes("dhurandhar")) return "dhurandhar";
+  if (t.includes("sacred games")) return "sacred_games";
+  if (t.includes("the family man") || t.includes("family man")) return "family_man";
+  if (t.includes("paatal lok")) return "paatal_lok";
+  if (t.includes("scam 1992")) return "scam_1992";
+
+  const clean = t.replace(/[^a-z0-9]/g, "");
+  return clean || String(m.id);
+}
+
+function deduplicateMoviePool(movies: (Movie | undefined | null)[]): Movie[] {
+  const seen = new Set<string>();
+  const list: Movie[] = [];
+  for (const m of movies) {
+    if (!m || !m.title) continue;
+    const key = getCanonicalKey(m);
+    if (!seen.has(key)) {
+      seen.add(key);
+      list.push(m);
+    }
+  }
+  return list;
+}
 
 function HeroSkeleton() {
   return (
@@ -57,7 +88,7 @@ function RowSkeleton({ title }: { title: string }) {
 }
 
 export default function HomePage() {
-  const { data: recData, isLoading: recLoading } = useRecommendations(24);
+  const { data: recData, isLoading: recLoading } = useRecommendations(30);
   const { data: trendingMovies, isLoading: trendLoading } = useTrendingMovies();
   const { data: topRatedMovies, isLoading: topLoading } = useTopRatedMovies();
   const { data: watchlistItems } = useWatchlist();
@@ -66,20 +97,18 @@ export default function HomePage() {
   const rawRecommendations = recData?.recommendations || [];
   const watchlistMovies = watchlistItems?.map((w) => w.movie) || [];
 
-  // Intelligently prioritize marquee Indian blockbusters & web series
-  const pool = [...rawRecommendations, ...(trendingMovies || []), ...(topRatedMovies || [])];
-  const uniqueMap = new Map<number, Movie>();
-  pool.forEach((m) => {
-    if (m && m.id && !uniqueMap.has(m.id)) {
-      uniqueMap.set(m.id, m);
-    }
-  });
+  // Intelligently deduplicate across all data feeds
+  const uniquePool = deduplicateMoviePool([
+    ...rawRecommendations,
+    ...(trendingMovies || []),
+    ...(topRatedMovies || []),
+  ]);
 
   const priorityItems: Movie[] = [];
   const regularItems: Movie[] = [];
   const deprioritizedItems: Movie[] = [];
 
-  Array.from(uniqueMap.values()).forEach((m) => {
+  uniquePool.forEach((m) => {
     const titleLower = (m.title || "").toLowerCase();
     const isDeprioritized = DEPRIORITIZED_TITLES.some((d) => titleLower.includes(d));
     const isPriority = PRIORITY_TITLES.some((p) => titleLower.includes(p));
@@ -102,6 +131,10 @@ export default function HomePage() {
 
   const recommendations = [...priorityItems, ...regularItems, ...deprioritizedItems];
   const heroMovie = priorityItems[0] || recommendations[0];
+
+  const dedupedTrending = deduplicateMoviePool(trendingMovies || []);
+  const dedupedTopRated = deduplicateMoviePool(topRatedMovies || []);
+  const dedupedWatchlist = deduplicateMoviePool(watchlistMovies);
 
   if (isLoading) {
     return (
@@ -141,31 +174,31 @@ export default function HomePage() {
       )}
 
       {/* 4. Watchlist */}
-      {watchlistMovies.length > 0 && (
+      {dedupedWatchlist.length > 0 && (
         <MovieRow
-          title="Your Watchlist"
-          subtitle="Films and series queued for upcoming movie nights"
-          movies={watchlistMovies}
+          title="Continue Watching & Saved"
+          subtitle="Titles you saved to your library"
+          movies={dedupedWatchlist}
           viewAllHref="/watchlist"
         />
       )}
 
-      {/* 5. Trending This Week */}
-      {trendingMovies && trendingMovies.length > 0 && (
+      {/* 5. Trending */}
+      {dedupedTrending.length > 0 && (
         <MovieRow
           title="Trending Now"
           subtitle="Popular selections gaining momentum across the platform"
-          movies={trendingMovies}
+          movies={dedupedTrending}
           viewAllHref="/discover"
         />
       )}
 
-      {/* 6. Top Rated Masterpieces */}
-      {topRatedMovies && topRatedMovies.length > 0 && (
+      {/* 6. Top Rated */}
+      {dedupedTopRated.length > 0 && (
         <MovieRow
-          title="Top Rated & Acclaimed"
-          subtitle="Highest critical scores across the catalog"
-          movies={topRatedMovies}
+          title="Critically Acclaimed"
+          subtitle="Highest voter consensus and cinematic milestones"
+          movies={dedupedTopRated}
           viewAllHref="/discover"
         />
       )}
