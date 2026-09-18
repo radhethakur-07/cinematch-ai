@@ -9,8 +9,17 @@ import { getMoviePosterUrl, formatReleaseYear } from "@/lib/utils";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export default function HistoryPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isHydrated } = useAuth();
   const { data: historyItems, isLoading } = useWatchHistory();
+
+  if (!isHydrated || (isAuthenticated && isLoading)) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="h-6 w-6 text-crimson animate-spin" />
+        <p className="text-sm text-cinema-muted">Loading interaction timeline...</p>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -22,15 +31,6 @@ export default function HistoryPage() {
           actionLabel="Sign In"
           onAction={() => window.location.href = "/login"}
         />
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
-        <Loader2 className="h-6 w-6 text-crimson animate-spin" />
-        <p className="text-sm text-cinema-muted">Loading interaction timeline...</p>
       </div>
     );
   }

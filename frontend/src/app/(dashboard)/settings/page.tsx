@@ -27,7 +27,7 @@ const ALL_GENRES = [
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { user, isAuthenticated, refreshUser } = useAuth();
+  const { user, isAuthenticated, isHydrated, refreshUser } = useAuth();
   const { theme, setTheme, mounted } = useTheme();
   const [fullName, setFullName] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -48,6 +48,15 @@ export default function SettingsPage() {
       })
       .catch(() => {});
   }, [user]);
+
+  if (!isHydrated) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="h-6 w-6 text-crimson animate-spin" />
+        <p className="text-sm text-cinema-muted">Loading account settings...</p>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

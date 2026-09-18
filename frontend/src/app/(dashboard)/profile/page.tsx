@@ -10,8 +10,17 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isHydrated } = useAuth();
   const { data: tasteProfile, isLoading } = useTasteProfile();
+
+  if (!isHydrated || (isAuthenticated && isLoading)) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="h-6 w-6 text-crimson animate-spin" />
+        <p className="text-sm text-cinema-muted">Synthesizing taste profile analytics...</p>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -23,15 +32,6 @@ export default function ProfilePage() {
           actionLabel="Sign In"
           onAction={() => window.location.href = "/login"}
         />
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
-        <Loader2 className="h-6 w-6 text-crimson animate-spin" />
-        <p className="text-sm text-cinema-muted">Synthesizing taste profile analytics...</p>
       </div>
     );
   }

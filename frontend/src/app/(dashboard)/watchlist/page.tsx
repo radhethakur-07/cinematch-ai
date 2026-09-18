@@ -9,24 +9,10 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
 
 export default function WatchlistPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isHydrated } = useAuth();
   const { data: watchlist, isLoading } = useWatchlist();
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
-        <EmptyState
-          icon={Bookmark}
-          title="Sign in to view your watchlist"
-          description="Save titles you want to watch and tune your personalized recommendations."
-          actionLabel="Sign In"
-          onAction={() => window.location.href = "/login"}
-        />
-      </div>
-    );
-  }
-
-  if (isLoading) {
+  if (!isHydrated || (isAuthenticated && isLoading)) {
     return (
       <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
         <div className="space-y-2">
@@ -42,6 +28,20 @@ export default function WatchlistPage() {
             </div>
           ))}
         </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
+        <EmptyState
+          icon={Bookmark}
+          title="Sign in to view your watchlist"
+          description="Save titles you want to watch and tune your personalized recommendations."
+          actionLabel="Sign In"
+          onAction={() => window.location.href = "/login"}
+        />
       </div>
     );
   }

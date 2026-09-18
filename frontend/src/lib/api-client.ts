@@ -13,7 +13,15 @@ class ApiClient {
 
   private getToken(): string | null {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("cinematch_auth_token");
+      const directToken = localStorage.getItem("cinematch_auth_token");
+      if (directToken) return directToken;
+      try {
+        const storeStr = localStorage.getItem("cinematch_auth_store");
+        if (storeStr) {
+          const parsed = JSON.parse(storeStr);
+          if (parsed?.state?.token) return parsed.state.token;
+        }
+      } catch {}
     }
     return null;
   }
