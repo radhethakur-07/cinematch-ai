@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { MovieListResponse, Genre } from "@/types";
@@ -28,6 +28,7 @@ export default function DiscoverPage() {
   const [selectedGenre, setSelectedGenre] = useState<number | undefined>(undefined);
   const [sortBy, setSortBy] = useState<string>("popularity.desc");
   const [page, setPage] = useState<number>(1);
+  const genreContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: genres } = useQuery({
     queryKey: ["genres"],
@@ -53,6 +54,17 @@ export default function DiscoverPage() {
     setSelectedGenre(undefined);
     setSortBy("popularity.desc");
     setPage(1);
+  };
+
+  const scrollGenres = (direction: "left" | "right") => {
+    if (genreContainerRef.current) {
+      const { scrollLeft, clientWidth } = genreContainerRef.current;
+      const amount = clientWidth * 0.6;
+      genreContainerRef.current.scrollTo({
+        left: direction === "left" ? scrollLeft - amount : scrollLeft + amount,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -116,32 +128,65 @@ export default function DiscoverPage() {
           )}
         </div>
 
-        {/* Genre Pills */}
+        {/* Genre Pills with Scroll Buttons */}
         {genres && genres.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="relative flex items-center gap-2">
+            {/* Scroll Left Button */}
             <button
-              onClick={() => { setSelectedGenre(undefined); setPage(1); }}
-              className={`genre-pill flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                selectedGenre === undefined
-                  ? "border border-crimson/50 bg-crimson/10 text-crimson"
-                  : "border border-cinema-border bg-cinema-surface text-cinema-muted hover:text-cinema-text hover:border-cinema-hover"
-              }`}
+              onClick={() => scrollGenres("left")}
+              className="hidden sm:flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-cinema-surface border border-cinema-border text-cinema-muted hover:text-cinema-text hover:bg-cinema-hover transition-colors shadow-sm cursor-pointer"
+              aria-label="Scroll genres left"
+              title="Scroll left"
             >
-              All Genres
+              <ChevronLeft className="h-4 w-4" />
             </button>
-            {genres.map((genre) => (
-              <button
-                key={genre.id}
-                onClick={() => { setSelectedGenre(genre.id); setPage(1); }}
-                className={`genre-pill flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                  selectedGenre === genre.id
-                    ? "border border-crimson/50 bg-crimson/10 text-crimson"
-                    : "border border-cinema-border bg-cinema-surface text-cinema-muted hover:text-cinema-text hover:border-cinema-hover"
-                }`}
+
+            {/* Scrollable Container */}
+            <div className="relative flex-1 overflow-hidden">
+              <div
+                ref={genreContainerRef}
+                onWheel={(e) => {
+                  if (genreContainerRef.current && e.deltaY !== 0) {
+                    genreContainerRef.current.scrollLeft += e.deltaY;
+                  }
+                }}
+                className="flex gap-2 overflow-x-auto pb-1 scrollbar-none scroll-smooth touch-pan-x"
               >
-                {genre.name}
-              </button>
-            ))}
+                <button
+                  onClick={() => { setSelectedGenre(undefined); setPage(1); }}
+                  className={`genre-pill flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                    selectedGenre === undefined
+                      ? "border border-crimson/50 bg-crimson/10 text-crimson font-semibold"
+                      : "border border-cinema-border bg-cinema-surface text-cinema-muted hover:text-cinema-text hover:border-cinema-hover"
+                  }`}
+                >
+                  All Genres
+                </button>
+                {genres.map((genre) => (
+                  <button
+                    key={genre.id}
+                    onClick={() => { setSelectedGenre(genre.id); setPage(1); }}
+                    className={`genre-pill flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                      selectedGenre === genre.id
+                        ? "border border-crimson/50 bg-crimson/10 text-crimson font-semibold"
+                        : "border border-cinema-border bg-cinema-surface text-cinema-muted hover:text-cinema-text hover:border-cinema-hover"
+                    }`}
+                  >
+                    {genre.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Scroll Right Button */}
+            <button
+              onClick={() => scrollGenres("right")}
+              className="hidden sm:flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-cinema-surface border border-cinema-border text-cinema-muted hover:text-cinema-text hover:bg-cinema-hover transition-colors shadow-sm cursor-pointer"
+              aria-label="Scroll genres right"
+              title="Scroll right"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         )}
       </div>

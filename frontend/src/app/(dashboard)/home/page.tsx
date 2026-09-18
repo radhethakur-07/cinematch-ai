@@ -1,9 +1,26 @@
-﻿"use client";
+"use client";
 
 import { useTrendingMovies, useTopRatedMovies, useWatchlist } from "@/hooks/use-movies";
 import { useRecommendations } from "@/hooks/use-recommendations";
 import { MovieHero } from "@/components/movies/movie-hero";
 import { MovieRow } from "@/components/movies/movie-row";
+import { Movie } from "@/types";
+
+const PRIORITY_TITLES = [
+  "mirzapur: the movie",
+  "dhurandhar",
+  "pritam and pedro",
+  "kota factory",
+  "special ops 1.5",
+  "special ops",
+  "panchayat",
+  "mirzapur",
+];
+
+const DEPRIORITIZED_TITLES = [
+  "the glass breakfront",
+  "freddy",
+];
 
 function HeroSkeleton() {
   return (
@@ -40,15 +57,51 @@ function RowSkeleton({ title }: { title: string }) {
 }
 
 export default function HomePage() {
-  const { data: recData, isLoading: recLoading } = useRecommendations(20);
+  const { data: recData, isLoading: recLoading } = useRecommendations(24);
   const { data: trendingMovies, isLoading: trendLoading } = useTrendingMovies();
   const { data: topRatedMovies, isLoading: topLoading } = useTopRatedMovies();
   const { data: watchlistItems } = useWatchlist();
 
   const isLoading = recLoading || trendLoading || topLoading;
-  const recommendations = recData?.recommendations || [];
-  const heroMovie = recommendations[0] || trendingMovies?.[0];
+  const rawRecommendations = recData?.recommendations || [];
   const watchlistMovies = watchlistItems?.map((w) => w.movie) || [];
+
+  // Intelligently prioritize marquee Indian blockbusters & web series
+  const pool = [...rawRecommendations, ...(trendingMovies || []), ...(topRatedMovies || [])];
+  const uniqueMap = new Map<number, Movie>();
+  pool.forEach((m) => {
+    if (m && m.id && !uniqueMap.has(m.id)) {
+      uniqueMap.set(m.id, m);
+    }
+  });
+
+  const priorityItems: Movie[] = [];
+  const regularItems: Movie[] = [];
+  const deprioritizedItems: Movie[] = [];
+
+  Array.from(uniqueMap.values()).forEach((m) => {
+    const titleLower = (m.title || "").toLowerCase();
+    const isDeprioritized = DEPRIORITIZED_TITLES.some((d) => titleLower.includes(d));
+    const isPriority = PRIORITY_TITLES.some((p) => titleLower.includes(p));
+
+    if (isDeprioritized) {
+      deprioritizedItems.push(m);
+    } else if (isPriority) {
+      priorityItems.push(m);
+    } else {
+      regularItems.push(m);
+    }
+  });
+
+  // Sort priority items by designated order
+  priorityItems.sort((a, b) => {
+    const aIdx = PRIORITY_TITLES.findIndex((p) => (a.title || "").toLowerCase().includes(p));
+    const bIdx = PRIORITY_TITLES.findIndex((p) => (b.title || "").toLowerCase().includes(p));
+    return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
+  });
+
+  const recommendations = [...priorityItems, ...regularItems, ...deprioritizedItems];
+  const heroMovie = priorityItems[0] || recommendations[0];
 
   if (isLoading) {
     return (
@@ -63,26 +116,26 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen pb-16">
-      {/* 1. Hero Pick */}
+      {/* 1. Hero Spotlight */}
       {heroMovie && <MovieHero movie={heroMovie} showAiBadge={true} />}
 
-      {/* 2. Recommended For You */}
+      {/* 2. Recommended For You (Curated Marquee First) */}
       {recommendations.length > 0 && (
         <MovieRow
           title="Recommended For You"
-          subtitle="Ranked dynamically using your hybrid taste vectors"
+          subtitle="Top rated Hindi blockbusters and premier web series matched to your taste"
           movies={recommendations.slice(0, 12)}
           isAiRecommended={true}
           viewAllHref="/recommendations"
         />
       )}
 
-      {/* 3. Deep Cuts & Similar */}
+      {/* 3. Deep Cuts & Tailored Picks */}
       {recommendations.length > 12 && (
         <MovieRow
           title="More Tailored Picks"
           subtitle="Thematic alignment with your viewing profile"
-          movies={recommendations.slice(12, 20)}
+          movies={recommendations.slice(12, 24)}
           isAiRecommended={true}
         />
       )}
@@ -101,7 +154,7 @@ export default function HomePage() {
       {trendingMovies && trendingMovies.length > 0 && (
         <MovieRow
           title="Trending Now"
-          subtitle="Popular selections gaining momentum"
+          subtitle="Popular selections gaining momentum across the platform"
           movies={trendingMovies}
           viewAllHref="/discover"
         />
