@@ -156,7 +156,7 @@ export default function DiscoverPage() {
                   onClick={() => { setSelectedGenre(undefined); setPage(1); }}
                   className={`genre-pill flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                     selectedGenre === undefined
-                      ? "border border-crimson/50 bg-crimson/10 text-crimson font-semibold"
+                      ? "border border-crimson/50 bg-crimson-soft text-crimson font-semibold"
                       : "border border-cinema-border bg-cinema-surface text-cinema-muted hover:text-cinema-text hover:border-cinema-hover"
                   }`}
                 >
@@ -168,7 +168,7 @@ export default function DiscoverPage() {
                     onClick={() => { setSelectedGenre(genre.id); setPage(1); }}
                     className={`genre-pill flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                       selectedGenre === genre.id
-                        ? "border border-crimson/50 bg-crimson/10 text-crimson font-semibold"
+                        ? "border border-crimson/50 bg-crimson-soft text-crimson font-semibold"
                         : "border border-cinema-border bg-cinema-surface text-cinema-muted hover:text-cinema-text hover:border-cinema-hover"
                     }`}
                   >

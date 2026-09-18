@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: "crimson" | "gold" | "neutral" | "surface" | "series";
@@ -13,7 +13,7 @@ export function Badge({ className = "", variant = "neutral", size = "sm", childr
     gold: "bg-gold-soft text-gold border border-gold/30",
     neutral: "bg-cinema-elevated text-cinema-secondary border border-cinema-border",
     surface: "bg-cinema-surface text-cinema-muted border border-cinema-border-subtle",
-    series: "bg-purple-950/40 text-purple-300 border border-purple-800/40",
+    series: "bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30 dark:border-purple-800/40",
   };
 
   const sizes = {

@@ -10,14 +10,37 @@ export const metadata: Metadata = {
   keywords: ["AI Movie Recommendation", "Film Discovery", "Machine Learning", "CineMatch AI", "TMDB", "Gemini AI"],
 };
 
+const themeInitScript = `
+  (function() {
+    try {
+      var theme = localStorage.getItem('cinematch-theme');
+      var isDark = theme === 'dark' || (!theme || theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.style.colorScheme = 'dark';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.documentElement.style.colorScheme = 'light';
+      }
+    } catch (e) {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen bg-cinema-bg text-zinc-100 flex flex-col antialiased selection:bg-brand-500/30 selection:text-brand-300">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-screen bg-cinema-bg text-cinema-text flex flex-col antialiased selection:bg-crimson/20 selection:text-crimson">
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>

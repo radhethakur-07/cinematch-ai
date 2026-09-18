@@ -88,7 +88,7 @@ export function MovieHero({ movie, showAiBadge = true }: MovieHeroProps) {
                   </span>
                 )}
                 {isSeries && (
-                  <span className="inline-flex items-center rounded-full bg-purple-950/40 border border-purple-800/40 px-2.5 py-0.5 text-[11px] font-medium text-purple-300">
+                  <span className="inline-flex items-center rounded-full bg-purple-500/15 border border-purple-500/30 px-2.5 py-0.5 text-[11px] font-medium text-purple-700 dark:text-purple-300">
                     Series
                   </span>
                 )}

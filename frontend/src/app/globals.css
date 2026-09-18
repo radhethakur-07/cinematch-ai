@@ -4,29 +4,109 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light Mode Design Tokens (Editorial Daylight) */
 :root {
-  --background: 225 18% 4%;
-  --foreground: 45 15% 94%;
-  --border: 220 11% 18%;
-  --input: 220 11% 18%;
-  --ring: 355 64% 57%;
+  --cinema-void: #F7F5F0;
+  --cinema-bg: #F7F5F0;
+  --cinema-surface: #FFFFFF;
+  --cinema-card: #FFFFFF;
+  --cinema-elevated: #FFFFFF;
+  --cinema-hover: #ECE9E2;
+  --cinema-border: #DDD9D0;
+  --cinema-border-subtle: #E8E4DC;
+  --cinema-border-strong: #CFC9BE;
+  --cinema-text: #17181B;
+  --cinema-secondary: #44464B;
+  --cinema-muted: #707277;
+  --cinema-disabled: #9B9CA0;
+
+  --crimson: #C9434F;
+  --crimson-hover: #B63743;
+  --crimson-dark: #A12D38;
+  --crimson-soft: #F8E5E7;
+
+  --gold: #A77A32;
+  --gold-soft: #F5EBD8;
+
+  --semantic-success: #477A5A;
+  --semantic-warning: #9A6A21;
+  --semantic-danger: #B94650;
+  --semantic-info: #526D87;
+
+  --shadow-subtle: 0 1px 3px 0 rgba(20, 20, 20, 0.05);
+  --shadow-card: 0 4px 20px -2px rgba(20, 20, 20, 0.06);
+  --shadow-elevated: 0 8px 30px -4px rgba(20, 20, 20, 0.08);
+  --shadow-modal: 0 20px 40px -8px rgba(20, 20, 20, 0.15);
+
+  --skeleton-from: #F0EEE8;
+  --skeleton-mid: #E8E4DC;
+  --skeleton-to: #F0EEE8;
+
+  --scrollbar-track: #F7F5F0;
+  --scrollbar-thumb: #DDD9D0;
+  --scrollbar-thumb-hover: #CFC9BE;
+
   --radius: 0.75rem;
 }
 
+/* Dark Mode Design Tokens (Cinematic Night) */
+.dark {
+  --cinema-void: #090A0D;
+  --cinema-bg: #090A0D;
+  --cinema-surface: #101216;
+  --cinema-card: #101216;
+  --cinema-elevated: #16181D;
+  --cinema-hover: #1C1F25;
+  --cinema-border: #292C33;
+  --cinema-border-subtle: #202329;
+  --cinema-border-strong: #383C45;
+  --cinema-text: #F4F2ED;
+  --cinema-secondary: #C1C0BC;
+  --cinema-muted: #94959A;
+  --cinema-disabled: #66686D;
+
+  --crimson: #D94B56;
+  --crimson-hover: #E65B66;
+  --crimson-dark: #B83B46;
+  --crimson-soft: rgba(217, 75, 86, 0.12);
+
+  --gold: #D6B56D;
+  --gold-soft: rgba(214, 181, 109, 0.12);
+
+  --semantic-success: #6FA884;
+  --semantic-warning: #D2A45A;
+  --semantic-danger: #C96B73;
+  --semantic-info: #7E9BB7;
+
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+  --shadow-elevated: 0 8px 30px -4px rgba(0, 0, 0, 0.6);
+  --shadow-modal: 0 20px 40px -8px rgba(0, 0, 0, 0.8);
+
+  --skeleton-from: #101216;
+  --skeleton-mid: #16181D;
+  --skeleton-to: #101216;
+
+  --scrollbar-track: #090A0D;
+  --scrollbar-thumb: #202329;
+  --scrollbar-thumb-hover: #292C33;
+}
+
 body {
-  color: #F4F2ED;
-  background-color: #090A0D;
+  color: var(--cinema-text);
+  background-color: var(--cinema-bg);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Subtle Restrained Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #090A0D; }
-::-webkit-scrollbar-thumb { background: #202329; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #292C33; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
@@ -36,7 +116,7 @@ body {
 
 /* Restrained Shimmer Skeleton */
 .skeleton {
-  background: linear-gradient(90deg, #101216 25%, #16181D 50%, #101216 75%);
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-mid) 50%, var(--skeleton-to) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: 8px;
@@ -49,7 +129,7 @@ body {
 
 /* Subtle Focus Ring */
 *:focus-visible {
-  outline: 2px solid #D94B56;
+  outline: 2px solid var(--crimson);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -87,18 +167,18 @@ body {
   user-select: none;
 }
 .genre-pill:hover {
-  background: #1C1F25;
-  border-color: #292C33;
-  color: #F4F2ED;
+  background: var(--cinema-hover);
+  border-color: var(--cinema-border);
+  color: var(--cinema-text);
 }
 .genre-pill.active {
-  background: rgba(217, 75, 86, 0.12);
-  border-color: #D94B56;
-  color: #F4F2ED;
+  background: var(--crimson-soft);
+  border-color: var(--crimson);
+  color: var(--crimson);
+  font-weight: 600;
 }
 
 /* Movie backdrop overlay */
 .backdrop-fade {
   background: linear-gradient(180deg, rgba(9, 10, 13, 0.2) 0%, rgba(9, 10, 13, 0.8) 70%, #090A0D 100%);
 }
-

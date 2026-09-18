@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Sparkles, Film, Compass, Bookmark, User, Search, LogOut, ShieldAlert, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { NaturalSearchDialog } from "@/components/ai/natural-search-dialog";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
@@ -25,7 +26,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-cinema-border bg-cinema-void/95 backdrop-blur-md transition-colors">
+      <header className="sticky top-0 z-40 w-full border-b border-cinema-border bg-cinema-void/90 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           
           {/* Logo */}
@@ -67,7 +68,7 @@ export function Navbar() {
           </nav>
 
           {/* Actions & Profile */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             {/* Quick AI Search Trigger */}
             <button
               onClick={() => setAiModalOpen(true)}
@@ -86,6 +87,9 @@ export function Navbar() {
             >
               <Search className="h-4 w-4" />
             </Link>
+
+            {/* Global Theme Toggle */}
+            <ThemeToggle />
 
             {/* Auth Actions */}
             {isAuthenticated ? (
@@ -168,6 +172,11 @@ export function Navbar() {
                   </Link>
                 );
               })}
+
+              <div className="pt-2 pb-1 border-t border-cinema-border-subtle flex items-center justify-between px-3.5">
+                <span className="text-xs font-medium text-cinema-muted">Appearance</span>
+                <ThemeToggle showLabel={true} />
+              </div>
 
               {isAuthenticated && user?.is_admin && (
                 <Link

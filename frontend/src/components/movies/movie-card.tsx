@@ -62,12 +62,12 @@ export function MovieCard({ movie, showMatchPercentage = true }: MovieCardProps)
         <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
           <div className="flex items-center gap-1.5 flex-wrap">
             {showMatchPercentage && (
-              <span className="flex items-center gap-1 rounded-full bg-cinema-void/85 border border-cinema-border px-2 py-0.5 text-[11px] font-medium text-cinema-text shadow-subtle">
+              <span className="flex items-center gap-1 rounded-full bg-cinema-surface/90 backdrop-blur-sm border border-cinema-border px-2 py-0.5 text-[11px] font-medium text-cinema-text shadow-subtle">
                 <span className="text-crimson font-semibold">{matchPct}%</span> Match
               </span>
             )}
             {isSeries && (
-              <span className="rounded-full bg-cinema-void/85 border border-purple-800/50 px-2 py-0.5 text-[10px] font-medium text-purple-300">
+              <span className="rounded-full bg-cinema-surface/90 backdrop-blur-sm border border-purple-500/30 px-2 py-0.5 text-[10px] font-medium text-purple-700 dark:text-purple-300 shadow-subtle">
                 Series
               </span>
             )}
